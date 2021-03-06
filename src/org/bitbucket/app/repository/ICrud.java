@@ -4,7 +4,7 @@ import org.bitbucket.app.entity.Person;
 
 import java.util.ArrayList;
 
-public interface ICrudCommands {
+public interface ICrud {
 
     Person create(Person createdPerson);
     ArrayList<Person> createAll(ArrayList<Person> createdPeople);

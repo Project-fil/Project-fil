@@ -3,18 +3,18 @@ package org.bitbucket.app.repository.locale;
 import org.bitbucket.app.config.formats_config.FMBin;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BinFormat;
-import org.bitbucket.app.repository.ICrudCommands;
+import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
 import org.bitbucket.app.utils.exceptions.NullArgumentException;
 import org.bitbucket.app.utils.exceptions.WrongFormatException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class DaoPersonBin implements ICrudCommands {
+public class DaoPersonBin implements ICrud {
 
     private final ArrayList<Person> people;
 
@@ -25,11 +25,7 @@ public class DaoPersonBin implements ICrudCommands {
     public DaoPersonBin(String path) {
         this.path = path;
         this.format = FMBin.binFormat();
-        try {
-            this.people = format.fromFormat(FileUtils.readFileToByteArray(new File(path)));
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to read a file.");
-        }
+        this.people = format.fromFormat(FileUtils.readBinFile(new File(path)));
     }
 
     @Override
@@ -38,11 +34,7 @@ public class DaoPersonBin implements ICrudCommands {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.add(createdPerson);
-        try {
-            FileUtils.writeByteArrayToFile(new File(path), format.toFormat(this.people));
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to write a file.");
-        }
+        FileUtils.writeToBinFile(new File(path), format.toFormat(this.people));
         return createdPerson;
     }
 
@@ -52,11 +44,7 @@ public class DaoPersonBin implements ICrudCommands {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.addAll(createdPeople);
-        try {
-            FileUtils.writeByteArrayToFile(new File(path), format.toFormat(this.people));
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to write a file.");
-        }
+        FileUtils.writeToBinFile(new File(path), format.toFormat(this.people));
         return this.people;
     }
 
@@ -83,11 +71,7 @@ public class DaoPersonBin implements ICrudCommands {
         for(Person person : this.people){
             if(person.getId() == updatedPerson.getId()){
                 person = updatedPerson;
-                try {
-                    FileUtils.writeByteArrayToFile(new File(path), format.toFormat(this.people));
-                } catch (IOException e){
-                    throw new WrongFormatException("Failed to write a file.");
-                }
+                FileUtils.writeToBinFile(new File(path), format.toFormat(this.people));
                 return person;
             }
         }
@@ -108,11 +92,7 @@ public class DaoPersonBin implements ICrudCommands {
             }
             this.people.set(i, updatedPeople.get(i));
         }
-        try {
-            FileUtils.writeByteArrayToFile(new File(path), format.toFormat(this.people));
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to write a file.");
-        }
+        FileUtils.writeToBinFile(new File(path), format.toFormat(this.people));
         return this.people;
     }
 
@@ -121,11 +101,7 @@ public class DaoPersonBin implements ICrudCommands {
         for(Person person : this.people){
             if(person.getId() == id){
                 this.people.remove(person);
-                try {
-                    FileUtils.writeByteArrayToFile(new File(path), format.toFormat(this.people));
-                } catch (IOException e){
-                    throw new WrongFormatException("Failed to write a file.");
-                }
+                FileUtils.writeToBinFile(new File(path), format.toFormat(this.people));
                 return person;
             }
         }

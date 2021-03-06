@@ -3,18 +3,18 @@ package org.bitbucket.app.repository.locale;
 import org.bitbucket.app.config.formats_config.FMCsv;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BaseFormat;
-import org.bitbucket.app.repository.ICrudCommands;
+import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
 import org.bitbucket.app.utils.exceptions.NullArgumentException;
 import org.bitbucket.app.utils.exceptions.WrongFormatException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class DaoPersonCsv implements ICrudCommands {
+public class DaoPersonCsv implements ICrud {
     
     private final ArrayList<Person> people;
 
@@ -25,11 +25,7 @@ public class DaoPersonCsv implements ICrudCommands {
     public DaoPersonCsv(String path) {
         this.path = path;
         this.format = FMCsv.csvFormat();
-        try {
-            this.people = format.fromFormat(FileUtils.readFileToString(new File(path), (String) null));
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to read a file.");
-        }
+        this.people = format.fromFormat(FileUtils.readFile(new File(path)));
     }
 
     @Override
@@ -38,11 +34,7 @@ public class DaoPersonCsv implements ICrudCommands {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.add(createdPerson);
-        try {
-            FileUtils.writeStringToFile(new File(path), format.toFormat(this.people), (String) null);
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to write a file.");
-        }
+        FileUtils.writeToFile(new File(path), format.toFormat(this.people));
         return createdPerson;
     }
 
@@ -52,11 +44,7 @@ public class DaoPersonCsv implements ICrudCommands {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.addAll(createdPeople);
-        try {
-            FileUtils.writeStringToFile(new File(path), format.toFormat(this.people), (String) null);
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to write a file.");
-        }
+        FileUtils.writeToFile(new File(path), format.toFormat(this.people));
         return this.people;
     }
 
@@ -83,11 +71,7 @@ public class DaoPersonCsv implements ICrudCommands {
         for(Person person : this.people){
             if(person.getId() == updatedPerson.getId()){
                 person = updatedPerson;
-                try {
-                    FileUtils.writeStringToFile(new File(path), format.toFormat(this.people), (String) null);
-                } catch (IOException e){
-                    throw new WrongFormatException("Failed to write a file.");
-                }
+                FileUtils.writeToFile(new File(path), format.toFormat(this.people));
                 return person;
             }
         }
@@ -108,11 +92,7 @@ public class DaoPersonCsv implements ICrudCommands {
             }
             this.people.set(i, updatedPeople.get(i));
         }
-        try {
-            FileUtils.writeStringToFile(new File(path), format.toFormat(this.people), (String) null);
-        } catch (IOException e){
-            throw new WrongFormatException("Failed to write a file.");
-        }
+        FileUtils.writeToFile(new File(path), format.toFormat(this.people));
         return this.people;
     }
 
@@ -121,11 +101,7 @@ public class DaoPersonCsv implements ICrudCommands {
         for(Person person : this.people){
             if(person.getId() == id){
                 this.people.remove(person);
-                try {
-                    FileUtils.writeStringToFile(new File(path), format.toFormat(this.people), (String) null);
-                } catch (IOException e){
-                    throw new WrongFormatException("Failed to write a file.");
-                }
+                FileUtils.writeToFile(new File(path), format.toFormat(this.people));
                 return person;
             }
         }

@@ -1,8 +1,8 @@
 package org.bitbucket.app.config.formats_config;
 
-import org.bitbucket.app.repository.locale.IDaoPerson;
-import org.bitbucket.app.repository.locale.DaoPersonBin;
 import org.bitbucket.app.fomats.BinFormat;
+import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.repository.locale.DaoPersonBin;
 
 public class FMBin {
 
@@ -10,7 +10,7 @@ public class FMBin {
         return new BinFormat();
     }
 
-    public static IDaoPerson daoPersonBin(String fileName){
+    public static ICrud daoPersonBin(String fileName){
         return new DaoPersonBin(fileName);
     }
 
