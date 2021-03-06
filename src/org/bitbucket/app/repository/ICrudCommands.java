@@ -1,10 +1,10 @@
-package org.bitbucket.app.dao;
+package org.bitbucket.app.repository;
 
 import org.bitbucket.app.entity.Person;
 
 import java.util.ArrayList;
 
-public interface IDaoPerson {
+public interface ICrudCommands {
 
     Person create(Person createdPerson);
     ArrayList<Person> createAll(ArrayList<Person> createdPeople);

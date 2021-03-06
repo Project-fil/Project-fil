@@ -1,7 +1,7 @@
-package org.bitbucket.app.config.factories;
+package org.bitbucket.app.config.formats_config;
 
-import org.bitbucket.app.dao.IDaoPerson;
-import org.bitbucket.app.dao.impl.DaoPersonBin;
+import org.bitbucket.app.repository.locale.IDaoPerson;
+import org.bitbucket.app.repository.locale.DaoPersonBin;
 import org.bitbucket.app.fomats.BinFormat;
 
 public class FMBin {

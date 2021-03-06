@@ -1,21 +1,20 @@
-package org.bitbucket.app.dao.impl;
+package org.bitbucket.app.repository.locale;
 
-import org.bitbucket.app.config.factories.FMCsv;
-import org.bitbucket.app.dao.IDaoPerson;
-import org.bitbucket.app.fomats.BaseFormat;
+import org.bitbucket.app.config.formats_config.FMCsv;
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.fomats.BaseFormat;
+import org.bitbucket.app.repository.ICrudCommands;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
 import org.bitbucket.app.utils.exceptions.NullArgumentException;
 import org.bitbucket.app.utils.exceptions.WrongFormatException;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class DaoPersonCsv implements IDaoPerson {
+public class DaoPersonCsv implements ICrudCommands {
     
     private final ArrayList<Person> people;
 
