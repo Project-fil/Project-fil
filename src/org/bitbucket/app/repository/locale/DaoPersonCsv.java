@@ -8,11 +8,9 @@ import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
 import org.bitbucket.app.utils.exceptions.NullArgumentException;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 public class DaoPersonCsv implements ICrud {
     
@@ -20,12 +18,12 @@ public class DaoPersonCsv implements ICrud {
 
     private final BaseFormat format;
 
-    private final String path;
+    private final File file;
 
-    public DaoPersonCsv(String path) {
-        this.path = path;
+    public DaoPersonCsv(File file) {
+        this.file = file;
         this.format = FMCsv.csvFormat();
-        this.people = format.fromFormat(FileUtils.readFile(new File(path)));
+        this.people = format.fromFormat(FileUtils.readFile(file));
     }
 
     @Override
@@ -34,17 +32,17 @@ public class DaoPersonCsv implements ICrud {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.add(createdPerson);
-        FileUtils.writeToFile(new File(path), format.toFormat(this.people));
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return createdPerson;
     }
 
     @Override
     public ArrayList<Person> createAll(ArrayList<Person> createdPeople) {
-        if(this.people == null){
+        if(createdPeople == null){
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.addAll(createdPeople);
-        FileUtils.writeToFile(new File(path), format.toFormat(this.people));
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return this.people;
     }
 
@@ -66,13 +64,13 @@ public class DaoPersonCsv implements ICrud {
     @Override
     public Person update(Person updatedPerson) {
         if(updatedPerson == null) {
-            throw new WrongFormatException("Null argument exception.");
+            throw new NullArgumentException("Null argument exception.");
         }
-        for(Person person : this.people){
-            if(person.getId() == updatedPerson.getId()){
-                person = updatedPerson;
-                FileUtils.writeToFile(new File(path), format.toFormat(this.people));
-                return person;
+        for(int i = 0; i < this.people.size(); i++){
+            if(this.people.get(i).getId() == updatedPerson.getId()){
+                this.people.set(i, updatedPerson);
+                FileUtils.writeToFile(file, format.toFormat(this.people));
+                return updatedPerson;
             }
         }
         throw new NoSuchIdException("There is no person with such ID.");
@@ -92,7 +90,7 @@ public class DaoPersonCsv implements ICrud {
             }
             this.people.set(i, updatedPeople.get(i));
         }
-        FileUtils.writeToFile(new File(path), format.toFormat(this.people));
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return this.people;
     }
 
@@ -101,11 +99,11 @@ public class DaoPersonCsv implements ICrud {
         for(Person person : this.people){
             if(person.getId() == id){
                 this.people.remove(person);
-                FileUtils.writeToFile(new File(path), format.toFormat(this.people));
+                FileUtils.writeToFile(file, format.toFormat(this.people));
                 return person;
             }
         }
-        throw  new NoSuchElementException("There is no person with such ID.");
+        throw new NoSuchIdException("There is no person with such ID.");
     }
 
     @Override
@@ -117,14 +115,13 @@ public class DaoPersonCsv implements ICrud {
     }
 
     @Override
-    public String getPath() {
-        return this.path;
+    public File getFile() {
+        return this.file;
     }
 
     @Override
     public ArrayList<Person> getPeople() {
         return this.people;
     }
-
 
 }

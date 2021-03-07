@@ -2,6 +2,7 @@ package org.bitbucket.app.repository;
 
 import org.bitbucket.app.entity.Person;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public interface ICrud {
@@ -18,7 +19,7 @@ public interface ICrud {
     Person delete(long id);
     ArrayList<Person> deleteAll();
 
-    String getPath();
+    File getFile();
 
     ArrayList<Person> getPeople();
 

@@ -4,6 +4,7 @@ import org.bitbucket.app.utils.exceptions.WrongFormatException;
 import org.bitbucket.app.utils.exceptions.WrongPathException;
 
 import java.io.*;
+import java.util.Locale;
 
 public class FileUtils {
 
@@ -86,5 +87,17 @@ public class FileUtils {
         } catch (IOException e){
             throw new WrongPathException("Failed to write file");
         }
+    }
+
+    public static String getExtension(File file){
+        String fileName = file.getName();
+        String extension = "";
+        int i = fileName.lastIndexOf('.');
+        int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+        if (i > p) {
+            extension = fileName.substring(i+1);
+        }
+        extension = extension.toLowerCase(Locale.ROOT);
+        return extension;
     }
 }
