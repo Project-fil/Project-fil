@@ -9,10 +9,10 @@ import java.util.List;
 
 public class YmlFormat implements BaseFormat {
 
+    @Override
+    public ArrayList<Person> fromFormat(String file) {
 
-    public ArrayList<Person> fromFormat(String file){
-
-        List<Person> people = new ArrayList<>();
+        ArrayList<Person> people = new ArrayList<>();
 
         long id_person = 0;
         String firstName_person = "";
@@ -27,11 +27,11 @@ public class YmlFormat implements BaseFormat {
 
         parsedPerson = file.split("\n");
         int j = parsedPerson.length;
-        for (int i = 0; i < j; i++){
+        for (int i = 0; i < j; i++) {
             parsedData = parsedPerson[i].split(":");
 
-            int parserCode = (i+1) % 6;
-            switch (parserCode){
+            int parserCode = (i + 1) % 6;
+            switch (parserCode) {
                 case (1):
                     continue;
                 case (2):
@@ -55,18 +55,16 @@ public class YmlFormat implements BaseFormat {
             Person ymlPerson = new Person(id_person, firstName_person, lastName_person, age_person, city_person);
             people.add(ymlPerson);
         }
-        return (ArrayList<Person>) people;
+        return people;
 
     }
 
     @Override
-    public String toFormat(ArrayList<Person> person) {
-        return null;
-    }
+    public String toFormat(ArrayList<Person> people) {
 
-    public String toFormat(List<Person> people){
-
-        if(people == null) {throw new WrongFormatException("Null input list.");}
+        if (people == null) {
+            throw new WrongFormatException("Null input list.");
+        }
         StringBuilder stream = new StringBuilder();
         for (Person person : people) {
             stream.append("- Person: \n");

@@ -10,9 +10,10 @@ import java.util.List;
 
 public class JsonFormat implements BaseFormat {
 
+    @Override
     public ArrayList<Person> fromFormat(String file) throws WrongFormatException {
 
-        List<Person> personList = new ArrayList<>();
+        ArrayList<Person> personList = new ArrayList<>();
         if (!PatternMatcher.isBlank(file)) {
             List<String> personJsonList = PatternMatcher.jsonToPersonList(file);
             try {
@@ -23,12 +24,7 @@ public class JsonFormat implements BaseFormat {
                 throw new WrongFormatException(wfe.getMessage());
             }
         }
-        return (ArrayList<Person>) personList;
-    }
-
-    @Override
-    public String toFormat(ArrayList<Person> person) {
-        return null;
+        return personList;
     }
 
     private Person toPerson(String one) throws WrongFormatException {
@@ -70,8 +66,8 @@ public class JsonFormat implements BaseFormat {
         return new Person(id, firstName, lastName, age, city);
     }
 
-
-    public String toFormat(List<Person> people) throws WrongFormatException {
+@Override
+    public String toFormat(ArrayList<Person> people) throws WrongFormatException {
 
         if (people == null) {
             throw new WrongFormatException("Null argument.");
