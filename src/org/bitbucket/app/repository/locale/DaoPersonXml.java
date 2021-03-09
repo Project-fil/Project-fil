@@ -1,6 +1,5 @@
 package org.bitbucket.app.repository.locale;
 
-import org.bitbucket.app.config.formats_config.FMCsv;
 import org.bitbucket.app.config.formats_config.FMXml;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BaseFormat;
