@@ -69,7 +69,7 @@ public class YmlFormat implements BaseFormat {
         if(people == null) {throw new WrongFormatException("Null input list.");}
         StringBuilder stream = new StringBuilder();
         for (Person person : people) {
-            stream.append("Person: \n");
+            stream.append("- Person: \n");
             stream.append("    id: ").append(person.getId()).append("\n");
             stream.append("    firstName: ").append(person.getFirstName()).append("\n");
             stream.append("    lastName: ").append(person.getLastName()).append("\n");
