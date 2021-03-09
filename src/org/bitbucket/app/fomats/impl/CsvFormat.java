@@ -51,7 +51,8 @@ public class CsvFormat implements BaseFormat {
                 }
                 Person csvPerson = new Person(id_person, firstName_person, lastName_person, age_person, city_person);
                 people.add(csvPerson);
-            } catch (NumberFormatException nfe) {
+            } catch (NumberFormatException e) {
+                throw new WrongFormatException("Wrong csv-format.");
             }
         }
         return people;
