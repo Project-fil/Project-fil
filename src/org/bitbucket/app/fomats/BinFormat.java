@@ -17,6 +17,7 @@ public class BinFormat {
         if(Arrays.equals(serializedPeople, new byte[0])){
             return new ArrayList<>();
         }
+
         ArrayList<Person> people;
 
         try(ByteArrayInputStream byteInputStream = new ByteArrayInputStream(serializedPeople);
