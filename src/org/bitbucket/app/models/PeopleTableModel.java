@@ -2,9 +2,14 @@ package org.bitbucket.app.models;
 
 import org.bitbucket.app.config.FDaoPerson;
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.utils.PersonColumns;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PeopleTableModel extends AbstractTableModel {
 
@@ -15,6 +20,8 @@ public class PeopleTableModel extends AbstractTableModel {
     private ArrayList<Person> people = new ArrayList<>();
 
     private static FDaoPerson crudService;
+
+    private List<Field> columnField;
 
     public PeopleTableModel(FDaoPerson setService) {
         this.crudService = setService;
@@ -40,7 +47,9 @@ public class PeopleTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int col) {
-        return columns[col];
+        this.se
+        return this.tableColumns.get(col)
+                .getAnnotation(PersonColumns.class).name();
     }
 
     public Object getValueAt(int row, int col) {
