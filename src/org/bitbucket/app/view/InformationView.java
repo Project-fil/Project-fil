@@ -1,7 +1,5 @@
 package org.bitbucket.app.view;
 
-import org.bitbucket.app.models.PeopleTableModel;
-
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;

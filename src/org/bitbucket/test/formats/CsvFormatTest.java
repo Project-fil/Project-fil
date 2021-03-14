@@ -6,6 +6,7 @@ import org.bitbucket.app.utils.exceptions.WrongFormatException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import java.util.ArrayList;
 
 public class CsvFormatTest {
@@ -69,7 +70,8 @@ public class CsvFormatTest {
 
     @Test(expected = WrongFormatException.class)
     public void toFormatNull(){
-        format.toFormat(null); }
+        ArrayList<Person> people = null;
+        format.toFormat(people); }
 
     @Test(expected = WrongFormatException.class)
     public void fromFormatNull(){

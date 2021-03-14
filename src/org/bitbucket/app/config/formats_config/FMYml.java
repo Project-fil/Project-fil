@@ -2,8 +2,8 @@ package org.bitbucket.app.config.formats_config;
 
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.fomats.impl.YmlFormat;
-import org.bitbucket.app.repository.ICrud;
-import org.bitbucket.app.repository.locale.DaoPersonYml;
+import org.bitbucket.app.services.IPeopleService;
+import org.bitbucket.app.services.locale.PersonYmlService;
 
 import java.io.File;
 
@@ -13,8 +13,8 @@ public class FMYml {
         return new YmlFormat();
     }
 
-    public static ICrud daoPersonYml(File file){
-        return new DaoPersonYml(file);
+    public static IPeopleService daoPersonYml(File file){
+        return new PersonYmlService(file);
     }
 
 }

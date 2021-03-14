@@ -1,13 +1,13 @@
-package org.bitbucket.app.view.panel;
+package org.bitbucket.app.view.panels;
 
 import javax.swing.*;
 
-public class ButtonsPanel extends JTabbedPane {
+public class ChooseRepositoryPane extends JTabbedPane {
 
     String selectedRepository = "";
 
-    public ButtonsPanel() {
-        setBounds(5,5,200,600);
+    public ChooseRepositoryPane() {
+        this.setBounds(5,5,200,600);
 
         JPanel local = new LocalPanel();
         local.setVisible(true);

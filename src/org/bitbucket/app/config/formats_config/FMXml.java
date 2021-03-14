@@ -2,8 +2,8 @@ package org.bitbucket.app.config.formats_config;
 
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.fomats.impl.XmlFormat;
-import org.bitbucket.app.repository.ICrud;
-import org.bitbucket.app.repository.locale.DaoPersonXml;
+import org.bitbucket.app.services.IPeopleService;
+import org.bitbucket.app.services.locale.PersonXmlService;
 
 import java.io.File;
 
@@ -13,8 +13,8 @@ public class FMXml {
         return new XmlFormat();
     }
 
-    public static ICrud daoPersonXml(File file){
-        return new DaoPersonXml(file);
+    public static IPeopleService daoPersonXml(File file){
+        return new PersonXmlService(file);
     }
 
 }

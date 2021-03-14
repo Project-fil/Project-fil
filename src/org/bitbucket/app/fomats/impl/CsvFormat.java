@@ -18,8 +18,8 @@ public class CsvFormat implements BaseFormat {
         String[] subStr;
         String[] insideSubStr;
         String insideDelimiter = ", ";
-        String fileDelimiter = "\n"; // Разделитель по ентерам
-        subStr = file.split(fileDelimiter);//Разделено по ентерам
+        String fileDelimiter = "\n";
+        subStr = file.split(fileDelimiter);
         long id_person = 0;
         String firstName_person = "";
         String lastName_person = "";

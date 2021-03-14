@@ -1,4 +1,4 @@
-package org.bitbucket.app.view.panel;
+package org.bitbucket.app.view.panels;
 
 import org.bitbucket.app.view.buttons.local.CreateNewRecord;
 import org.bitbucket.app.view.buttons.local.ReadButton;
@@ -16,18 +16,18 @@ public class LocalPanel extends JPanel {
 
     public LocalPanel() {
 
-        setLayout(null);
-        setVisible(true);
+        this.setLayout(null);
+        this.setVisible(true);
 
         readData.setLocation(5, 5);
         updateRecord.setLocation(5, 45);
         createNewRecord.setLocation(5, 85);
         removeRecord.setLocation(5, 125);
 
-        add(readData);
-        add(updateRecord);
-        add(createNewRecord);
-        add(removeRecord);
+        this.add(readData);
+        this.add(updateRecord);
+        this.add(createNewRecord);
+        this.add(removeRecord);
 
     }
 }

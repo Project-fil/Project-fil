@@ -1,9 +1,9 @@
-package org.bitbucket.app.repository.locale;
+package org.bitbucket.app.services.locale;
 
 import org.bitbucket.app.config.formats_config.FMXml;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BaseFormat;
-import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.services.IPeopleService;
 import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
@@ -12,7 +12,7 @@ import org.bitbucket.app.utils.exceptions.NullArgumentException;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DaoPersonXml implements ICrud {
+public class PersonXmlService implements IPeopleService {
 
     private final ArrayList<Person> people;
 
@@ -20,7 +20,7 @@ public class DaoPersonXml implements ICrud {
 
     private final File file;
 
-    public DaoPersonXml(File file) {
+    public PersonXmlService(File file) {
         this.file = file;
         this.format = FMXml.xmlFormat();
         this.people = format.fromFormat(FileUtils.readFile(file));
