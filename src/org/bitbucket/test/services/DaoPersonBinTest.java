@@ -1,8 +1,8 @@
-package org.bitbucket.test.dao;
+package org.bitbucket.test.services;
 
-import org.bitbucket.app.config.FDaoPerson;
+import org.bitbucket.app.config.FPersonService;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.services.IPeopleService;
 import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
@@ -13,9 +13,9 @@ import org.junit.*;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DaoPersonXmlTest {
+public class DaoPersonBinTest {
 
-    private static ICrud daoXml;
+    private static IPeopleService daoBin;
 
     private static final Person firstPerson = new Person(1111111111111111111L, "firstName1", "lastName1", 11, "city1");
 
@@ -33,9 +33,9 @@ public class DaoPersonXmlTest {
 
     private static final ArrayList<Person> wrongUpdatedPeople = new ArrayList<>();
 
-    private static final File file = new File("test.xml");
+    private static final File file = new File("test.bin");
 
-    private static final File notExistingFile = new File("notExisting.xml");
+    private static final File notExistingFile = new File("notExisting.bin");
 
     private static ArrayList<Person> exp = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class DaoPersonXmlTest {
     @Before
     public void before(){
         FileUtils.createFile(file);
-        daoXml = FDaoPerson.chooseDao(file);
+        daoBin = FPersonService.chooseService(file);
     }
 
     @After
@@ -66,7 +66,7 @@ public class DaoPersonXmlTest {
 
     @Test
     public void readAllEmpty(){
-        act = daoXml.readAll();
+        act = (ArrayList<Person>) daoBin.readAll();
         Assert.assertEquals(exp, act);
     }
 
@@ -75,135 +75,134 @@ public class DaoPersonXmlTest {
         exp.add(firstPerson);
         exp.add(secondPerson);
         exp.add(thirdPerson);
-        daoXml.createAll(people);
-        daoXml.create(thirdPerson);
-        act = daoXml.getPeople();
+        daoBin.createAll(people);
+        daoBin.create(thirdPerson);
+        act = (ArrayList<Person>) daoBin.getPeople();
     }
 
     @Test
     public void createAll(){
-        act = daoXml.createAll(people);
+        act = (ArrayList<Person>) daoBin.createAll(people);
         exp.addAll(people);
         Assert.assertEquals(exp, act);
     }
 
     @Test(expected = NullArgumentException.class)
     public void createNull(){
-        daoXml.create(null);
+        daoBin.create(null);
     }
 
     @Test(expected = NullArgumentException.class)
     public void createAllNull(){
-        daoXml.createAll(null);
+        daoBin.createAll(null);
     }
 
     @Test
     public void readOne(){
-        daoXml.createAll(people);
+        daoBin.createAll(people);
         exp.add(secondPerson);
-        act.add(daoXml.read(2222222222222222222L));
+        act.add(daoBin.read(2222222222222222222L));
         Assert.assertEquals(exp, act);
     }
 
     @Test(expected = NoSuchIdException.class)
     public void readNotExisting(){
-        daoXml.read(5555555555555555555L);
+        daoBin.read(5555555555555555555L);
     }
 
     @Test
     public void updateOne(){
-        daoXml.createAll(people);
+        daoBin.createAll(people);
         exp.add(updatedPerson);
         exp.add(secondPerson);
-        daoXml.update(updatedPerson);
-        act = daoXml.getPeople();
+        daoBin.update(updatedPerson);
+        act = (ArrayList<Person>) daoBin.getPeople();
         Assert.assertEquals(exp, act);
     }
 
     @Test
     public void updateTwo(){
-        daoXml.createAll(people);
+        daoBin.createAll(people);
         exp.add(updatedPerson);
         exp.add(secondPerson);
-        act.addAll(daoXml.updateAll(updatedPeople));
+        act.addAll(daoBin.updateAll(updatedPeople));
         Assert.assertEquals(exp, act);
     }
 
     @Test(expected = DifferentArraySizesException.class)
     public void updateAllDifferentSizes(){
-        daoXml.createAll(people);
-        daoXml.create(thirdPerson);
-        daoXml.updateAll(updatedPeople);
+        daoBin.createAll(people);
+        daoBin.create(thirdPerson);
+        daoBin.updateAll(updatedPeople);
     }
 
     @Test(expected = NoSuchIdException.class)
     public void updateAllNoSuchId(){
-        daoXml.createAll(people);
-        daoXml.updateAll(wrongUpdatedPeople);
+        daoBin.createAll(people);
+        daoBin.updateAll(wrongUpdatedPeople);
     }
 
     @Test(expected = NoSuchIdException.class)
     public void updateNoSuchId(){
-        daoXml.update(wrongUpdatedPerson);
+        daoBin.update(wrongUpdatedPerson);
     }
 
     @Test(expected = NullArgumentException.class)
     public void updateNull(){
-        daoXml.update(null);
+        daoBin.update(null);
     }
 
     @Test(expected = NullArgumentException.class)
     public void updateAllNull(){
-        daoXml.updateAll(null);
+        daoBin.updateAll(null);
     }
 
     @Test
     public void deleteAllRemaining(){
-        daoXml.createAll(people);
-        daoXml.deleteAll();
-        act = daoXml.getPeople();
+        daoBin.createAll(people);
+        daoBin.deleteAll();
+        act = (ArrayList<Person>) daoBin.getPeople();
         Assert.assertEquals(exp, act);
     }
 
     @Test
     public void deleteAllDeleted(){
-        daoXml.createAll(people);
+        daoBin.createAll(people);
         exp.addAll(people);
-        act = daoXml.deleteAll();
+        act = (ArrayList<Person>) daoBin.deleteAll();
         Assert.assertEquals(exp, act);
     }
 
     @Test
     public void deleteRemaining(){
-        daoXml.createAll(people);
+        daoBin.createAll(people);
         exp.add(firstPerson);
-        daoXml.delete(2222222222222222222L);
-        act = daoXml.getPeople();
+        daoBin.delete(2222222222222222222L);
+        act = (ArrayList<Person>) daoBin.getPeople();
         Assert.assertEquals(exp, act);
     }
 
     @Test(expected = NoSuchIdException.class)
     public void deleteNotExisting(){
-        daoXml.delete(5555555555555555555L);
+        daoBin.delete(5555555555555555555L);
     }
 
     @Test
     public void getPeople(){
-        daoXml.createAll(people);
+        daoBin.createAll(people);
         exp.add(firstPerson);
         exp.add(secondPerson);
-        act = daoXml.getPeople();
+        act = (ArrayList<Person>) daoBin.getPeople();
         Assert.assertEquals(exp, act);
     }
 
     @Test(expected = WrongPathException.class)
     public void wrongFile(){
-        daoXml = FDaoPerson.chooseDao(notExistingFile);
+        daoBin = FPersonService.chooseService(notExistingFile);
     }
 
     @Test
     public void getFile(){
-        Assert.assertEquals(file, daoXml.getFile());
+        Assert.assertEquals(file, daoBin.getFile());
     }
-
 }

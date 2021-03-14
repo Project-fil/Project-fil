@@ -1,8 +1,8 @@
-package org.bitbucket.test.dao;
+package org.bitbucket.test.services;
 
-import org.bitbucket.app.config.FDaoPerson;
+import org.bitbucket.app.config.FPersonService;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.services.IPeopleService;
 import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class DaoPersonJsonTest {
 
-    private static ICrud daoJson;
+    private static IPeopleService daoJson;
 
     private static final Person firstPerson = new Person(1111111111111111111L, "firstName1", "lastName1", 11, "city1");
 
@@ -54,7 +54,7 @@ public class DaoPersonJsonTest {
     @Before
     public void before(){
         FileUtils.createFile(file);
-        daoJson = FDaoPerson.chooseDao(file);
+        daoJson = FPersonService.chooseService(file);
     }
 
     @After
@@ -66,7 +66,7 @@ public class DaoPersonJsonTest {
 
     @Test
     public void readAllEmpty(){
-        act = daoJson.readAll();
+        act = (ArrayList<Person>) daoJson.readAll();
         Assert.assertEquals(exp, act);
     }
 
@@ -77,12 +77,12 @@ public class DaoPersonJsonTest {
         exp.add(thirdPerson);
         daoJson.createAll(people);
         daoJson.create(thirdPerson);
-        act = daoJson.getPeople();
+        act = (ArrayList<Person>) daoJson.getPeople();
     }
 
     @Test
     public void createAll(){
-        act = daoJson.createAll(people);
+        act = (ArrayList<Person>) daoJson.createAll(people);
         exp.addAll(people);
         Assert.assertEquals(exp, act);
     }
@@ -116,7 +116,7 @@ public class DaoPersonJsonTest {
         exp.add(updatedPerson);
         exp.add(secondPerson);
         daoJson.update(updatedPerson);
-        act = daoJson.getPeople();
+        act = (ArrayList<Person>) daoJson.getPeople();
         Assert.assertEquals(exp, act);
     }
 
@@ -161,7 +161,7 @@ public class DaoPersonJsonTest {
     public void deleteAllRemaining(){
         daoJson.createAll(people);
         daoJson.deleteAll();
-        act = daoJson.getPeople();
+        act = (ArrayList<Person>) daoJson.getPeople();
         Assert.assertEquals(exp, act);
     }
 
@@ -169,7 +169,7 @@ public class DaoPersonJsonTest {
     public void deleteAllDeleted(){
         daoJson.createAll(people);
         exp.addAll(people);
-        act = daoJson.deleteAll();
+        act = (ArrayList<Person>) daoJson.deleteAll();
         Assert.assertEquals(exp, act);
     }
 
@@ -178,7 +178,7 @@ public class DaoPersonJsonTest {
         daoJson.createAll(people);
         exp.add(firstPerson);
         daoJson.delete(2222222222222222222L);
-        act = daoJson.getPeople();
+        act = (ArrayList<Person>) daoJson.getPeople();
         Assert.assertEquals(exp, act);
     }
 
@@ -192,13 +192,13 @@ public class DaoPersonJsonTest {
         daoJson.createAll(people);
         exp.add(firstPerson);
         exp.add(secondPerson);
-        act = daoJson.getPeople();
+        act = (ArrayList<Person>) daoJson.getPeople();
         Assert.assertEquals(exp, act);
     }
 
     @Test(expected = WrongPathException.class)
     public void wrongFile(){
-        daoJson = FDaoPerson.chooseDao(notExistingFile);
+        daoJson = FPersonService.chooseService(notExistingFile);
     }
 
     @Test

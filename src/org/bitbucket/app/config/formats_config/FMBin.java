@@ -1,8 +1,8 @@
 package org.bitbucket.app.config.formats_config;
 
 import org.bitbucket.app.fomats.BinFormat;
-import org.bitbucket.app.repository.ICrud;
-import org.bitbucket.app.repository.locale.DaoPersonBin;
+import org.bitbucket.app.services.IPeopleService;
+import org.bitbucket.app.services.locale.PersonBinService;
 
 import java.io.File;
 
@@ -12,8 +12,8 @@ public class FMBin {
         return new BinFormat();
     }
 
-    public static ICrud daoPersonBin(File file){
-        return new DaoPersonBin(file);
+    public static IPeopleService daoPersonBin(File file){
+        return new PersonBinService(file);
     }
 
 

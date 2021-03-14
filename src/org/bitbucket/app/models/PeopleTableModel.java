@@ -1,31 +1,34 @@
 package org.bitbucket.app.models;
 
-import org.bitbucket.app.config.FDaoPerson;
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.services.IPeopleService;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PeopleTableModel extends AbstractTableModel {
 
-    private static String[] columns = new String[]{
-            "ID", "Firstname", "Lastname", "Age", "City"
-    };
+    private List<Person> people = new ArrayList<>();
 
-    private ArrayList<Person> people = new ArrayList<>();
+    private final List<Field> tableColumn;
 
-    private static FDaoPerson crudService;
+    private IPeopleService peopleService;
 
-    public PeopleTableModel(FDaoPerson setService) {
-        this.crudService = setService;
+    public PeopleTableModel(IPeopleService setService, List<Field> tableColumn) {
+        this.peopleService = setService;
+        this.tableColumn = tableColumn;
     }
 
     public PeopleTableModel refresh() {
+        this.people = this.peopleService.readAll();
         return this;
     }
 
-    public void setPeopleService(FDaoPerson setService) {
-        this.crudService = setService;
+    public void setPeopleService(IPeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
     @Override
@@ -35,37 +38,18 @@ public class PeopleTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return columns.length;
+        return this.tableColumn.size();
     }
 
     @Override
     public String getColumnName(int col) {
-        return columns[col];
+        return this.tableColumn.get(col)
+                .getAnnotation(PersonColumn.class).name();
     }
 
     public Object getValueAt(int row, int col) {
-        Object result;
-        Person p = this.people.get(row);
-        switch(col) {
-            case 0:
-                result = p.getId();
-                break;
-            case 1:
-                result = p.getFirstName();
-                break;
-            case 2:
-                result = p.getLastName();
-                break;
-            case 3:
-                result = p.getAge();
-                break;
-            case 4:
-                result = p.getCity();
-                break;
-            default:
-                result = null;
-                break;
-        }
-        return result;
+        Person person = this.people.get(row);
+        Field field = this.tableColumn.get(col);
+        return ReflectionUtils.getValue(field, person);
     }
 }

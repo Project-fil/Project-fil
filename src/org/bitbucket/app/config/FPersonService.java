@@ -1,15 +1,15 @@
 package org.bitbucket.app.config;
 
 import org.bitbucket.app.config.formats_config.*;
-import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.services.IPeopleService;
 import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.WrongPathException;
 
 import java.io.File;
 
-public class FDaoPerson {
+public class FPersonService {
 
-    public static ICrud chooseDao(File file){
+    public static IPeopleService chooseService(File file){
         switch (FileUtils.getExtension(file)){
             case "bin":
                 return FMBin.daoPersonBin(file);

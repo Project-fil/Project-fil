@@ -2,8 +2,8 @@ package org.bitbucket.app.config.formats_config;
 
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.fomats.impl.CsvFormat;
-import org.bitbucket.app.repository.ICrud;
-import org.bitbucket.app.repository.locale.DaoPersonCsv;
+import org.bitbucket.app.services.IPeopleService;
+import org.bitbucket.app.services.locale.PersonCsvService;
 
 import java.io.File;
 
@@ -13,8 +13,8 @@ public class FMCsv {
         return new CsvFormat();
     }
 
-    public static ICrud daoPersonCsv(File file){
-        return new DaoPersonCsv(file);
+    public static IPeopleService daoPersonCsv(File file){
+        return new PersonCsvService(file);
     }
 
 }

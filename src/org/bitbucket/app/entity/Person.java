@@ -1,5 +1,7 @@
 package org.bitbucket.app.entity;
 
+import org.bitbucket.app.models.PersonColumn;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,14 +9,19 @@ public class Person implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 3209363645813174245L;
 
+    @PersonColumn(name = "ID")
     private long id;
 
+    @PersonColumn(name = "First name")
     private String firstName;
 
+    @PersonColumn(name = "Last name")
     private String lastName;
 
+    @PersonColumn(name = "Age")
     private int age;
 
+    @PersonColumn(name = "City")
     private String city;
 
     public Person(long id, String firstName, String lastName, int age, String city) {

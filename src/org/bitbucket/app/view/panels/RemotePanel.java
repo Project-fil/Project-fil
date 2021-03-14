@@ -1,4 +1,4 @@
-package org.bitbucket.app.view.panel;
+package org.bitbucket.app.view.panels;
 
 import org.bitbucket.app.view.buttons.local.CreateNewRecord;
 import org.bitbucket.app.view.buttons.local.ReadButton;

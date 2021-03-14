@@ -1,9 +1,9 @@
-package org.bitbucket.app.repository.locale;
+package org.bitbucket.app.services.locale;
 
-import org.bitbucket.app.config.formats_config.FMBin;
+import org.bitbucket.app.config.formats_config.FMJson;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.fomats.BinFormat;
-import org.bitbucket.app.repository.ICrud;
+import org.bitbucket.app.fomats.BaseFormat;
+import org.bitbucket.app.services.IPeopleService;
 import org.bitbucket.app.utils.FileUtils;
 import org.bitbucket.app.utils.exceptions.DifferentArraySizesException;
 import org.bitbucket.app.utils.exceptions.NoSuchIdException;
@@ -12,18 +12,18 @@ import org.bitbucket.app.utils.exceptions.NullArgumentException;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DaoPersonBin implements ICrud {
+public class PersonJsonService implements IPeopleService {
 
     private final ArrayList<Person> people;
 
-    private final BinFormat format;
+    private final BaseFormat format;
 
     private final File file;
 
-    public DaoPersonBin(File file) {
+    public PersonJsonService(File file) {
         this.file = file;
-        this.format = FMBin.binFormat();
-        this.people = format.fromFormat(FileUtils.readBinFile(file));
+        this.format = FMJson.jsonFormat();
+        this.people = format.fromFormat(FileUtils.readFile(file));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class DaoPersonBin implements ICrud {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.add(createdPerson);
-        FileUtils.writeToBinFile(file, format.toFormat(this.people));
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return createdPerson;
     }
 
@@ -42,7 +42,7 @@ public class DaoPersonBin implements ICrud {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.addAll(createdPeople);
-        FileUtils.writeToBinFile(file, format.toFormat(this.people));
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return this.people;
     }
 
@@ -69,7 +69,7 @@ public class DaoPersonBin implements ICrud {
         for(int i = 0; i < this.people.size(); i++){
             if(this.people.get(i).getId() == updatedPerson.getId()){
                 this.people.set(i, updatedPerson);
-                FileUtils.writeToBinFile(file, format.toFormat(this.people));
+                FileUtils.writeToFile(file, format.toFormat(this.people));
                 return updatedPerson;
             }
         }
@@ -90,7 +90,7 @@ public class DaoPersonBin implements ICrud {
             }
             this.people.set(i, updatedPeople.get(i));
         }
-        FileUtils.writeToBinFile(file, format.toFormat(this.people));
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return this.people;
     }
 
@@ -99,7 +99,7 @@ public class DaoPersonBin implements ICrud {
         for(Person person : this.people){
             if(person.getId() == id){
                 this.people.remove(person);
-                FileUtils.writeToBinFile(file, format.toFormat(this.people));
+                FileUtils.writeToFile(file, format.toFormat(this.people));
                 return person;
             }
         }

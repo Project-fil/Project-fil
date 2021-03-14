@@ -1,17 +1,12 @@
 package org.bitbucket.app;
 
-import org.bitbucket.app.view.*;
-import org.bitbucket.app.view.panel.ButtonsPanel;
+import org.bitbucket.app.view.ApplicationFrame;
+import org.bitbucket.app.view.ViewConfig;
 
 public class Main {
 
     public static void main(String[] args){
-
-        new MainWindow(new CreateNewRecordWindow(),
-                new UpdateWindow(),
-                new RemoveRecord(),
-                new ButtonsPanel(),
-                new InformationView());
+        ApplicationFrame frame = ViewConfig.frame();
     }
 
 }
