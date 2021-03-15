@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class LUpdateButton extends JButton {
 
     public LUpdateButton() {
-        setText("Update record");
+        setText("Read");
         setSize(140,30);
         addActionListener(e -> {
 
