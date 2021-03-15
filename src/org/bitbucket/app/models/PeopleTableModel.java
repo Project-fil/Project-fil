@@ -4,7 +4,6 @@ import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.services.IPeopleService;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;

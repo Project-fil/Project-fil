@@ -14,5 +14,6 @@ public class ApplicationFrame extends JFrame {
         this.setSize(840, 650);
         this.add(peopleTablePanel);
         this.add(crudPane);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
