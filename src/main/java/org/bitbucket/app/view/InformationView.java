@@ -1,6 +1,7 @@
 package org.bitbucket.app.view;
 
 import javax.swing.*;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
 public class InformationView extends JPanel {

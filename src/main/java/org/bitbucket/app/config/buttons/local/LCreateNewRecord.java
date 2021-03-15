@@ -2,10 +2,10 @@ package org.bitbucket.app.view.buttons.local;
 
 import javax.swing.*;
 
-public class RemoveRecord extends JButton {
+public class LCreateNewRecord extends JButton {
 
-    public RemoveRecord() {
-        setText("Remove record");
+    public LCreateNewRecord() {
+        setText("Create new record");
         setSize(140,30);
         addActionListener(e -> {
 
