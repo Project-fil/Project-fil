@@ -9,12 +9,17 @@ import javax.swing.*;
 
 public class RemotePanel extends JPanel {
 
-    public final JButton readData = new ReadButton();
-    public final JButton updateRecord = new UpdateButton();
-    public final JButton createNewRecord = new CreateNewRecord();
-    public final JButton removeRecord = new RemoveRecord();
+    public final JButton readData;
+    public final JButton updateRecord ;
+    public final JButton createNewRecord;
+    public final JButton removeRecord;
 
-    public RemotePanel() {
+    public RemotePanel(PeopleTablePanel peopleTablePanel) {
+
+        readData = new ReadButton(peopleTablePanel);
+        updateRecord = new UpdateButton();
+        createNewRecord = new CreateNewRecord();
+        removeRecord = new RemoveRecord(peopleTablePanel);
 
         setLayout(null);
         setVisible(true);

@@ -10,12 +10,6 @@ import java.util.List;
 
 public class PeopleTableModel extends AbstractTableModel {
 
-    private static PeopleTableModel peopleTable;
-
-    public static PeopleTableModel getTable(){
-        return peopleTable;
-    }
-
     private List<Person> people = new ArrayList<>();
 
     private final List<Field> tableColumn;
@@ -32,8 +26,18 @@ public class PeopleTableModel extends AbstractTableModel {
         return this;
     }
 
+    public PeopleTableModel delete(Person person){
+        this.peopleService.delete(person.getId());
+        this.refresh();
+        return this;
+    }
+
     public void setPeopleService(IPersonService peopleService) {
         this.peopleService = peopleService;
+    }
+
+    public IPersonService getPeopleService() {
+        return peopleService;
     }
 
     @Override

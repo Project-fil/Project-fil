@@ -9,19 +9,19 @@ public class Person implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 3209363645813174245L;
 
-    @PersonColumn(name = "ID", width = 100)
+    @PersonColumn(name = "ID")
     private long id;
 
-    @PersonColumn(name = "First name", width = 100)
+    @PersonColumn(name = "First name")
     private String firstName;
 
-    @PersonColumn(name = "Last name", width = 100)
+    @PersonColumn(name = "Last name")
     private String lastName;
 
-    @PersonColumn(name = "Age", width = 30)
+    @PersonColumn(name = "Age")
     private int age;
 
-    @PersonColumn(name = "City", width = 50)
+    @PersonColumn(name = "City")
     private String city;
 
     public Person(long id, String firstName, String lastName, int age, String city) {
