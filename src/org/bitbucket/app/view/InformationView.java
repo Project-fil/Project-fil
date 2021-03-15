@@ -15,7 +15,6 @@ public class InformationView extends JPanel {
 
         this.peopleTable = new JTable();
         peopleTable.setBounds(5,15,540,300);
-        this.peopleTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
         JScrollPane scrollPane = new JScrollPane(this.peopleTable);
         scrollPane.setBounds(5,5,590,590);

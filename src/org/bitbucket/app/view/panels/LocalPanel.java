@@ -1,18 +1,18 @@
 package org.bitbucket.app.view.panels;
 
-import org.bitbucket.app.view.buttons.local.CreateNewRecord;
-import org.bitbucket.app.view.buttons.local.ReadButton;
-import org.bitbucket.app.view.buttons.local.RemoveRecord;
-import org.bitbucket.app.view.buttons.local.UpdateButton;
+import org.bitbucket.app.view.buttons.local.LCreateNewRecord;
+import org.bitbucket.app.view.buttons.local.LReadButton;
+import org.bitbucket.app.view.buttons.local.LRemoveRecord;
+import org.bitbucket.app.view.buttons.local.LUpdateButton;
 
 import javax.swing.*;
 
 public class LocalPanel extends JPanel {
 
-    public final JButton readData = new ReadButton();
-    public final JButton updateRecord = new UpdateButton();
-    public final JButton createNewRecord = new CreateNewRecord();
-    public final JButton removeRecord = new RemoveRecord();
+    public final JButton readData = new LReadButton();
+    public final JButton updateRecord = new LUpdateButton();
+    public final JButton createNewRecord = new LCreateNewRecord();
+    public final JButton removeRecord = new LRemoveRecord();
 
     public LocalPanel() {
 
