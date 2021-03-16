@@ -3,6 +3,7 @@ package org.bitbucket.app.entity;
 import org.bitbucket.app.models.PersonColumn;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.Objects;
 
 public class Person implements Serializable, Cloneable {
@@ -26,6 +27,15 @@ public class Person implements Serializable, Cloneable {
 
     public Person(long id, String firstName, String lastName, int age, String city) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.city = city;
+    }
+
+    public Person(String firstName, String lastName, int age, String city) {
+        SecureRandom secureRandom = new SecureRandom();
+        this.id = Math.abs(secureRandom.nextLong());
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;

@@ -1,27 +1,19 @@
 package org.bitbucket.app.view.panels;
 
+import org.bitbucket.app.commands.LocalCommands;
+import org.bitbucket.app.commands.RemoteCommands;
+
 import javax.swing.*;
 
 public class CRUDPane extends JTabbedPane {
 
-    private JPanel localPanel;
+    public CRUDPane(LocalCommands localCommands, RemoteCommands remoteCommands) {
 
-    private JPanel remotePanel;
-
-    public JPanel localPanel() {
-        return localPanel;
-    }
-
-    public JPanel remotePanel() {
-        return remotePanel;
-    }
-
-    public CRUDPane(PeopleTablePanel peopleTablePanel) {
         this.setBounds(5,5,200,600);
 
-        localPanel = new LocalPanel(peopleTablePanel);
+        JPanel localPanel = new LocalPanel(localCommands);
         localPanel.setVisible(true);
-        remotePanel = new RemotePanel(peopleTablePanel);
+        JPanel remotePanel = new RemotePanel(remoteCommands);
         remotePanel.setVisible(true);
 
         add("Local", localPanel);

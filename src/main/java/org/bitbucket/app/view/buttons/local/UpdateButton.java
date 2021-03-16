@@ -1,16 +1,14 @@
 package org.bitbucket.app.view.buttons.local;
 
+import org.bitbucket.app.commands.LocalCommands;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class UpdateButton extends JButton {
 
-    public UpdateButton() {
-        setText("Update");
+    public UpdateButton(LocalCommands commands) {
+        setText("Update record");
         setSize(140,30);
-        addActionListener(e -> {
-
-        });
+        addActionListener(commands.update());
     }
 }
