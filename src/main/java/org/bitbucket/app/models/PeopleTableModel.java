@@ -2,7 +2,6 @@ package org.bitbucket.app.models;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.services.IPersonService;
-import org.bitbucket.app.view.PersonDialog;
 
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;

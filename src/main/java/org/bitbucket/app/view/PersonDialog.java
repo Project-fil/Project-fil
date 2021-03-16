@@ -30,24 +30,25 @@ public class PersonDialog extends JDialog {
 
         this.commands.setPersonDialog(this);
 
+        this.setTitle("Person creation...");
         this.setModal(true);
         this.setLayout(null);
-        this.setBounds(300,300,400,400);
+        this.setBounds(300,300,240,200);
 
-        this.firstNameLabel.setBounds(10, 10, 70, 30);
-        this.firstNameField.setBounds(90, 10, 70, 30);
+        this.firstNameLabel.setBounds(10, 10, 70, 20);
+        this.firstNameField.setBounds(90, 10, 130, 20);
         this.add(firstNameLabel);
         this.add(firstNameField);
-        this.lastNameLabel.setBounds(10, 50, 70, 30);
-        this.lastNameField.setBounds(90, 50, 70, 30);
+        this.lastNameLabel.setBounds(10, 40, 70, 20);
+        this.lastNameField.setBounds(90, 40, 130, 20);
         this.add(lastNameLabel);
         this.add(lastNameField);
-        this.ageLabel.setBounds(10, 90, 70, 30);
-        this.ageField.setBounds(90, 90, 70, 30);
+        this.ageLabel.setBounds(10, 70, 70, 20);
+        this.ageField.setBounds(90, 70, 130, 20);
         this.add(ageLabel);
         this.add(ageField);
-        this.cityLabel.setBounds(10, 130, 70, 30);
-        this.cityField.setBounds(90, 130, 70, 30);
+        this.cityLabel.setBounds(10, 100, 70, 20);
+        this.cityField.setBounds(90, 100, 130, 20);
         this.add(cityLabel);
         this.add(cityField);
         if(person != null){
@@ -57,9 +58,9 @@ public class PersonDialog extends JDialog {
             cityField.setText(person.getCity());
         }
 
-        this.okButton.setBounds(10, 170, 185, 40);
+        this.okButton.setBounds(10, 130, 100, 25);
         okButton.addActionListener(commands.actionOk());
-        this.cancelButton.setBounds(205, 170, 185, 40);
+        this.cancelButton.setBounds(120, 130, 100, 25);
         cancelButton.addActionListener(commands.actionCancel());
         this.add(okButton);
         this.add(cancelButton);
