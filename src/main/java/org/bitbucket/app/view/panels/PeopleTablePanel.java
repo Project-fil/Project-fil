@@ -8,12 +8,23 @@ public class PeopleTablePanel extends JPanel {
 
     private final JTable peopleTable;
 
+    private PeopleTableModel peopleTableModel;
+
+    public JTable peopleTable() {
+        return peopleTable;
+    }
+
+    public PeopleTableModel peopleTableModel() {
+        return peopleTableModel;
+    }
+
     public PeopleTablePanel(PeopleTableModel peopleTableModel){
 
         this.setLayout(null);
         this.setBounds(210, 15, 480, 500);
 
-        this.peopleTable = new JTable(peopleTableModel);
+        this.peopleTableModel = peopleTableModel;
+        this.peopleTable = new JTable(this.peopleTableModel);
         this.peopleTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.peopleTable.getColumnModel().getColumn(0).setPreferredWidth(130);
         this.peopleTable.getColumnModel().getColumn(1).setPreferredWidth(100);
