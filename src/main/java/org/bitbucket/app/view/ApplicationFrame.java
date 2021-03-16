@@ -7,22 +7,8 @@ import javax.swing.*;
 
 public class ApplicationFrame extends JFrame {
 
-    private JPanel peopleTable;
-
-    private JTabbedPane crudPane;
-
-    public JPanel peopleTable() {
-        return peopleTable;
-    }
-
-    public JTabbedPane crudPane() {
-        return crudPane;
-    }
-
     public ApplicationFrame(PeopleTablePanel peopleTablePanel,
                             CRUDPane crudPane){
-        this.peopleTable = peopleTablePanel;
-        this.crudPane = crudPane;
         this.setLayout(null);
         this.setVisible(true);
         this.setSize(840, 650);

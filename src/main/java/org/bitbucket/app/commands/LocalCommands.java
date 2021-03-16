@@ -2,7 +2,7 @@ package org.bitbucket.app.commands;
 
 import org.bitbucket.app.config.FPersonService;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.services.IPersonService;
+import org.bitbucket.app.view.PersonDialog;
 import org.bitbucket.app.view.panels.PeopleTablePanel;
 
 import javax.swing.*;
@@ -13,67 +13,72 @@ import java.lang.reflect.Field;
 
 public class LocalCommands {
 
-    private PeopleTablePanel peopleTablePanel;
+    private final PeopleTablePanel peopleTablePanel;
 
-    public LocalCommands(PeopleTablePanel peopleTablePanel) {
+    private final PersonDialog personDialog;
+
+    public LocalCommands(PersonDialog dialog, PeopleTablePanel peopleTablePanel) {
+        this.personDialog = dialog;
         this.peopleTablePanel = peopleTablePanel;
     }
 
-    public final ActionListener create = e -> {
-
-    };
-
-    public final ActionListener read = e -> {
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter[] extensionFilters = new FileNameExtensionFilter[5];
-        extensionFilters[0] = new FileNameExtensionFilter(".bin", "bin");
-        extensionFilters[1] = new FileNameExtensionFilter(".csv", "csv");
-        extensionFilters[2] = new FileNameExtensionFilter(".json", "json");
-        extensionFilters[3] = new FileNameExtensionFilter(".xml", "xml");
-        extensionFilters[4] = new FileNameExtensionFilter(".yml", "yml");
-        for(FileNameExtensionFilter filter : extensionFilters){
-            fileChooser.addChoosableFileFilter(filter);
-        }
-        int rVal = fileChooser.showOpenDialog(null);
-        if(rVal == JFileChooser.APPROVE_OPTION){
-            File file = fileChooser.getSelectedFile();
-            peopleTablePanel.peopleTableModel().setPeopleService(FPersonService.chooseService(file));
-            peopleTablePanel.peopleTableModel().refresh();
-            peopleTablePanel.repaint();
-        }
-    };
-
-    public final ActionListener update = e -> {
-
-    };
-
-    public final ActionListener delete = e -> {
-        int row = this.peopleTablePanel.peopleTable().getSelectedRow();
-        Person person = new Person();
-        Class<? extends Person> clz = person.getClass();
-        Field[] fields = clz.getDeclaredFields();
-        try{
-            for( int i = 1; i < fields.length; i++){
-                fields[i].setAccessible(true);
-                Object tmp = this.peopleTablePanel.peopleTableModel().getValueAt(row, i - 1);
-                if(long.class.equals(fields[i].getType())){
-                    fields[i].setLong(person, Long.parseLong(String.valueOf(tmp)));
-                }
-                if(int.class.equals(fields[i].getType())){
-                    fields[i].setInt(person, Integer.parseInt(String.valueOf(tmp)));
-                }
-                if(String.class.equals(fields[i].getType())){
-                    fields[i].set(person, String.valueOf(tmp));
-                }
+    public ActionListener create() {
+        return e -> {
+            this.personDialog.setVisible(Boolean.TRUE);
+            if (this.personDialog.isDialog()) {
+                Person person = this.personDialog.getPerson(null);
+                this.peopleTablePanel.peopleTableModel().create(person);
+                this.peopleTablePanel.peopleTable().revalidate();
+                this.peopleTablePanel.repaint();
+                this.personDialog.clear();
             }
-        } catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
-        }
-        this.peopleTablePanel.peopleTableModel().delete(person);
-        this.peopleTablePanel.peopleTableModel().refresh();
-        this.peopleTablePanel.repaint();
-    };
+        };
+    }
 
+    public ActionListener read(){
+        return e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter[] extensionFilters = new FileNameExtensionFilter[5];
+            extensionFilters[0] = new FileNameExtensionFilter(".bin", "bin");
+            extensionFilters[1] = new FileNameExtensionFilter(".csv", "csv");
+            extensionFilters[2] = new FileNameExtensionFilter(".json", "json");
+            extensionFilters[3] = new FileNameExtensionFilter(".xml", "xml");
+            extensionFilters[4] = new FileNameExtensionFilter(".yml", "yml");
+            for(FileNameExtensionFilter filter : extensionFilters){
+                fileChooser.addChoosableFileFilter(filter);
+            }
+            int rVal = fileChooser.showOpenDialog(null);
+            if(rVal == JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                peopleTablePanel.peopleTableModel().setPeopleService(FPersonService.chooseService(file));
+                peopleTablePanel.peopleTableModel().refresh();
+                peopleTablePanel.repaint();
+            }
+        };
+    }
 
+    public ActionListener update() {
+        return e -> {
+            Person person = this.peopleTablePanel.getSelectedPerson();
+            this.personDialog.setPerson(person);
+            this.personDialog.setVisible(Boolean.TRUE);
+            if (this.personDialog.isDialog()) {
+                person = this.personDialog.getPerson(person);
+                this.peopleTablePanel.peopleTableModel().update(person);
+                this.peopleTablePanel.peopleTable().revalidate();
+                this.peopleTablePanel.repaint();
+            }
+            this.personDialog.clear();
+        };
+    }
+
+    public ActionListener delete() {
+        return e -> {
+            Person person = this.peopleTablePanel.getSelectedPerson();
+            this.peopleTablePanel.peopleTableModel().delete(person);
+            this.peopleTablePanel.peopleTableModel().refresh();
+            this.peopleTablePanel.repaint();
+        };
+    }
 
 }

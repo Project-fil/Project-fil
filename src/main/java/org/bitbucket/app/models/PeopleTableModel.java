@@ -2,6 +2,7 @@ package org.bitbucket.app.models;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.services.IPersonService;
+import org.bitbucket.app.view.PersonDialog;
 
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;
@@ -28,6 +29,18 @@ public class PeopleTableModel extends AbstractTableModel {
 
     public PeopleTableModel delete(Person person){
         this.peopleService.delete(person.getId());
+        this.refresh();
+        return this;
+    }
+
+    public PeopleTableModel create(Person person){
+        this.peopleService.create(person);
+        this.refresh();
+        return this;
+    }
+
+    public PeopleTableModel update(Person person){
+        this.peopleService.update(person);
         this.refresh();
         return this;
     }

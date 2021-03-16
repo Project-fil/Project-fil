@@ -1,14 +1,16 @@
 package org.bitbucket.app.view.panels;
 
+import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.models.PeopleTableModel;
 
 import javax.swing.*;
+import java.lang.reflect.Field;
 
 public class PeopleTablePanel extends JPanel {
 
     private final JTable peopleTable;
 
-    private PeopleTableModel peopleTableModel;
+    private final PeopleTableModel peopleTableModel;
 
     public JTable peopleTable() {
         return peopleTable;
@@ -16,6 +18,31 @@ public class PeopleTablePanel extends JPanel {
 
     public PeopleTableModel peopleTableModel() {
         return peopleTableModel;
+    }
+
+    public Person getSelectedPerson(){
+        int row = this.peopleTable().getSelectedRow();
+        Person person = new Person();
+        Class<? extends Person> clz = person.getClass();
+        Field[] fields = clz.getDeclaredFields();
+        try {
+            for (int i = 1; i < fields.length; i++) {
+                fields[i].setAccessible(true);
+                Object tmp = this.peopleTableModel().getValueAt(row, i - 1);
+                if (long.class.equals(fields[i].getType())) {
+                    fields[i].setLong(person, Long.parseLong(String.valueOf(tmp)));
+                }
+                if (int.class.equals(fields[i].getType())) {
+                    fields[i].setInt(person, Integer.parseInt(String.valueOf(tmp)));
+                }
+                if (String.class.equals(fields[i].getType())) {
+                    fields[i].set(person, String.valueOf(tmp));
+                }
+            }
+        } catch (IllegalAccessException illegalAccessException) {
+            illegalAccessException.printStackTrace();
+        }
+        return person;
     }
 
     public PeopleTablePanel(PeopleTableModel peopleTableModel){
