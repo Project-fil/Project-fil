@@ -1,39 +1,62 @@
 package org.bitbucket.app.view.panels;
 
 import org.bitbucket.app.commands.LocalCommands;
-import org.bitbucket.app.view.buttons.local.CreateNewRecord;
-import org.bitbucket.app.view.buttons.local.ReadButton;
-import org.bitbucket.app.view.buttons.local.RemoveRecord;
-import org.bitbucket.app.view.buttons.local.UpdateButton;
 
 import javax.swing.*;
 
 public class LocalPanel extends JPanel {
 
-    public final JButton readData;
-    public final JButton updateRecord ;
-    public final JButton createNewRecord;
-    public final JButton removeRecord;
+    private final JButton readButton;
+    private final JButton createButton;
+    private final JButton updateButton;
+    private final JButton deleteButton;
+
+    public JButton getReadButton() {
+        return readButton;
+    }
+
+    public JButton getCreateButton() {
+        return createButton;
+    }
+
+    public JButton getUpdateButton() {
+        return updateButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
 
     public LocalPanel(LocalCommands commands) {
 
-        readData = new ReadButton(commands);
-        updateRecord = new UpdateButton(commands);
-        createNewRecord = new CreateNewRecord(commands);
-        removeRecord = new RemoveRecord(commands);
+        readButton = new JButton("Read");
+        readButton.setSize(140,30);
+        readButton.addActionListener(commands.read());
+
+        createButton = new JButton("Create new record");
+        createButton.setSize(140,30);
+        createButton.addActionListener(commands.create());
+
+        updateButton = new JButton("Update record");
+        updateButton.setSize(140,30);
+        updateButton.addActionListener(commands.update());
+
+        deleteButton = new JButton("Remove record");
+        deleteButton.setSize(140,30);
+        deleteButton.addActionListener(commands.delete());
 
         this.setLayout(null);
         this.setVisible(true);
 
-        readData.setLocation(5, 5);
-        updateRecord.setLocation(5, 45);
-        createNewRecord.setLocation(5, 85);
-        removeRecord.setLocation(5, 125);
+        readButton.setLocation(5, 5);
+        createButton.setLocation(5, 45);
+        updateButton.setLocation(5, 85);
+        deleteButton.setLocation(5, 125);
 
-        this.add(readData);
-        this.add(updateRecord);
-        this.add(createNewRecord);
-        this.add(removeRecord);
+        this.add(readButton);
+        this.add(createButton);
+        this.add(updateButton);
+        this.add(deleteButton);
 
     }
 }

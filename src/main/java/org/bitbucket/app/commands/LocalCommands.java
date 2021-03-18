@@ -14,22 +14,17 @@ public class LocalCommands {
 
     private final PeopleTablePanel peopleTablePanel;
 
-    private final PersonDialog personDialog;
-
-    public LocalCommands(PersonDialog dialog, PeopleTablePanel peopleTablePanel) {
-        this.personDialog = dialog;
+    public LocalCommands(PeopleTablePanel peopleTablePanel) {
         this.peopleTablePanel = peopleTablePanel;
     }
 
     public ActionListener create() {
         return e -> {
-            this.personDialog.setVisible(Boolean.TRUE);
-            if (this.personDialog.isDialog()) {
-                Person person = this.personDialog.getPerson(null);
+            Person person = PersonDialog.showDialog();
+            if(person != null) {
                 this.peopleTablePanel.peopleTableModel().create(person);
                 this.peopleTablePanel.peopleTable().revalidate();
                 this.peopleTablePanel.repaint();
-                this.personDialog.clear();
             }
         };
     }
@@ -58,25 +53,26 @@ public class LocalCommands {
 
     public ActionListener update() {
         return e -> {
-            Person person = this.peopleTablePanel.getSelectedPerson();
-            this.personDialog.setPerson(person);
-            this.personDialog.setVisible(Boolean.TRUE);
-            if (this.personDialog.isDialog()) {
-                person = this.personDialog.getPerson(person);
-                this.peopleTablePanel.peopleTableModel().update(person);
-                this.peopleTablePanel.peopleTable().revalidate();
-                this.peopleTablePanel.repaint();
-            }
-            this.personDialog.clear();
+            try {
+                Person person = this.peopleTablePanel.getSelectedPerson();
+                Person updatedPerson = PersonDialog.showDialog(person);
+                if(updatedPerson != null) {
+                    this.peopleTablePanel.peopleTableModel().update(updatedPerson);
+                    this.peopleTablePanel.peopleTable().revalidate();
+                    this.peopleTablePanel.repaint();
+                }
+            } catch (IndexOutOfBoundsException ignore){ }
         };
     }
 
     public ActionListener delete() {
         return e -> {
-            Person person = this.peopleTablePanel.getSelectedPerson();
-            this.peopleTablePanel.peopleTableModel().delete(person);
-            this.peopleTablePanel.peopleTableModel().refresh();
-            this.peopleTablePanel.repaint();
+            try {
+                Person person = this.peopleTablePanel.getSelectedPerson();
+                this.peopleTablePanel.peopleTableModel().delete(person);
+                this.peopleTablePanel.peopleTableModel().refresh();
+                this.peopleTablePanel.repaint();
+            } catch (IndexOutOfBoundsException ignore){ }
         };
     }
 

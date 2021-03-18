@@ -1,13 +1,12 @@
 package org.bitbucket.app.view;
 
-import org.bitbucket.app.commands.PersonDialogCommands;
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.utils.PatternMatcher;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class PersonDialog extends JDialog {
-
-    private PersonDialogCommands commands;
 
     private final JLabel firstNameLabel = new JLabel("First name");
     private final JTextField firstNameField = new JTextField("");
@@ -24,11 +23,9 @@ public class PersonDialog extends JDialog {
     public final JButton okButton = new JButton("OK");
     public final JButton cancelButton = new JButton("Cancel");
 
-    public PersonDialog(PersonDialogCommands commands, Person person) {
+    private boolean canceled;
 
-        this.commands = commands;
-
-        this.commands.setPersonDialog(this);
+    public PersonDialog(Person person) {
 
         this.setTitle("Person creation...");
         this.setModal(true);
@@ -59,57 +56,107 @@ public class PersonDialog extends JDialog {
         }
 
         this.okButton.setBounds(10, 130, 100, 25);
-        okButton.addActionListener(commands.actionOk());
+        okButton.addActionListener(this.actionOk());
         this.cancelButton.setBounds(120, 130, 100, 25);
-        cancelButton.addActionListener(commands.actionCancel());
+        cancelButton.addActionListener(this.actionCancel());
         this.add(okButton);
         this.add(cancelButton);
     }
 
-    public void setPerson(Person person){
-        if(person != null){
-            firstNameField.setText(person.getFirstName());
-            lastNameField.setText(person.getLastName());
-            ageField.setText(String.valueOf(person.getAge()));
-            cityField.setText(person.getCity());
-        }
-    }
-
-    public Person getPerson(Person person){
+    private Person getPerson(Person initialPerson){
         int age;
         try{
             age = Integer.parseInt(this.ageField.getText());
         } catch (NumberFormatException ex){
             return null;
         }
-        if(person == null) {
+        if(initialPerson == null) {
             return new Person(
-                    this.firstNameField.getText(),
-                    this.lastNameField.getText(),
-                    age,
-                    this.cityField.getText()
+                this.firstNameField.getText(),
+                this.lastNameField.getText(),
+                age,
+                this.cityField.getText()
             );
         }
         else {
             return new Person(
-                    person.getId(),
-                    this.firstNameField.getText(),
-                    this.lastNameField.getText(),
-                    Integer.parseInt(this.ageField.getText()),
-                    this.cityField.getText()
+                initialPerson.getId(),
+                this.firstNameField.getText(),
+                this.lastNameField.getText(),
+                age,
+                this.cityField.getText()
             );
         }
     }
 
-    public void clear(){
-        this.firstNameField.setText("");
-        this.lastNameField.setText("");
-        this.ageField.setText("");
-        this.cityField.setText("");
+    public static Person showDialog(Person p){
+        PersonDialog dialog = new PersonDialog(p);
+        dialog.setVisible(true);
+        if(dialog.canceled){
+            return null;
+        }
+        return dialog.getPerson(p);
     }
 
-    public boolean isDialog(){
-        return this.commands.isDialog();
+    public static Person showDialog(){
+        return showDialog(null);
+    }
+
+    private boolean isValidInput(){
+        boolean isValidFirstName = PatternMatcher.isValidName(this.firstNameField.getText());
+        boolean isValidLastName = PatternMatcher.isValidName(this.lastNameField.getText());
+        boolean isValidAge = PatternMatcher.isNumeric(this.ageField.getText());
+        boolean isValidCity = PatternMatcher.isValidName(this.cityField.getText());
+        boolean notValidInput = false;
+        StringBuilder stringBuilder = new StringBuilder("These fields are not valid: ");
+        if(!isValidFirstName){
+            stringBuilder.append("first name");
+            notValidInput = true;
+        }
+        if(!isValidLastName){
+            if(notValidInput){
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append("last name");
+            notValidInput = true;
+        }
+        if(!isValidAge){
+            if(notValidInput){
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append("age");
+            notValidInput = true;
+        }
+        if(!isValidCity){
+            if(notValidInput){
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append("city");
+            notValidInput = true;
+        }
+        stringBuilder.append(". Please enter a valid data.");
+        if(notValidInput){
+            JOptionPane.showMessageDialog(new JFrame(), stringBuilder.toString(),
+                    "Warning", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private ActionListener actionOk(){
+        return e -> {
+            if(isValidInput()) {
+                this.canceled = false;
+                this.setVisible(false);
+            }
+        };
+    }
+
+    private ActionListener actionCancel(){
+        return e -> {
+            this.canceled = true;
+            this.setVisible(false);
+        };
     }
 
 }
