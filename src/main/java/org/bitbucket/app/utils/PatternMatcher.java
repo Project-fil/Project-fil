@@ -1,4 +1,4 @@
-package org.bitbucket.app.utils.exceptions;
+package org.bitbucket.app.utils;
 
 
 import java.util.ArrayList;
@@ -83,4 +83,13 @@ public class PatternMatcher {
         return !matcher.find();
 
     }
+
+    public static boolean isNumeric(String strNum) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
+    }
+
 }

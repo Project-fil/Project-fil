@@ -2,7 +2,7 @@ package org.bitbucket.app.fomats.impl;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BaseFormat;
-import org.bitbucket.app.utils.exceptions.PatternMatcher;
+import org.bitbucket.app.utils.PatternMatcher;
 import org.bitbucket.app.utils.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
