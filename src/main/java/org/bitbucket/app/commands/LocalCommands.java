@@ -46,6 +46,7 @@ public class LocalCommands {
                 File file = fileChooser.getSelectedFile();
                 peopleTablePanel.peopleTableModel().setPeopleService(FPersonService.chooseService(file));
                 peopleTablePanel.peopleTableModel().refresh();
+                this.peopleTablePanel.peopleTable().revalidate();
                 peopleTablePanel.repaint();
             }
         };
@@ -71,6 +72,7 @@ public class LocalCommands {
                 Person person = this.peopleTablePanel.getSelectedPerson();
                 this.peopleTablePanel.peopleTableModel().delete(person);
                 this.peopleTablePanel.peopleTableModel().refresh();
+                this.peopleTablePanel.peopleTable().revalidate();
                 this.peopleTablePanel.repaint();
             } catch (IndexOutOfBoundsException ignore){ }
         };

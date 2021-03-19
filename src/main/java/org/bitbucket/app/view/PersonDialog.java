@@ -11,7 +11,7 @@ public class PersonDialog extends JDialog {
     private final JLabel firstNameLabel = new JLabel("First name");
     private final JTextField firstNameField = new JTextField("");
 
-    private final JLabel lastNameLabel = new JLabel("First name");
+    private final JLabel lastNameLabel = new JLabel("Last name");
     private final JTextField lastNameField = new JTextField("");
 
     private final JLabel ageLabel = new JLabel("Age");
@@ -25,7 +25,7 @@ public class PersonDialog extends JDialog {
 
     private boolean canceled;
 
-    public PersonDialog(Person person) {
+    private PersonDialog(Person person) {
 
         this.setTitle("Person creation...");
         this.setModal(true);
@@ -48,12 +48,8 @@ public class PersonDialog extends JDialog {
         this.cityField.setBounds(90, 100, 130, 20);
         this.add(cityLabel);
         this.add(cityField);
-        if(person != null){
-            firstNameField.setText(person.getFirstName());
-            lastNameField.setText(person.getLastName());
-            ageField.setText(String.valueOf(person.getAge()));
-            cityField.setText(person.getCity());
-        }
+
+        this.setPerson(person);
 
         this.okButton.setBounds(10, 130, 100, 25);
         okButton.addActionListener(this.actionOk());
@@ -61,6 +57,15 @@ public class PersonDialog extends JDialog {
         cancelButton.addActionListener(this.actionCancel());
         this.add(okButton);
         this.add(cancelButton);
+    }
+
+    private void setPerson(Person person){
+        if(person != null){
+            firstNameField.setText(person.getFirstName());
+            lastNameField.setText(person.getLastName());
+            ageField.setText(String.valueOf(person.getAge()));
+            cityField.setText(person.getCity());
+        }
     }
 
     private Person getPerson(Person initialPerson){
@@ -107,40 +112,39 @@ public class PersonDialog extends JDialog {
         boolean isValidLastName = PatternMatcher.isValidName(this.lastNameField.getText());
         boolean isValidAge = PatternMatcher.isNumeric(this.ageField.getText());
         boolean isValidCity = PatternMatcher.isValidName(this.cityField.getText());
-        boolean notValidInput = false;
+        boolean isValidInput = true;
         StringBuilder stringBuilder = new StringBuilder("These fields are not valid: ");
         if(!isValidFirstName){
             stringBuilder.append("first name");
-            notValidInput = true;
+            isValidInput = false;
         }
         if(!isValidLastName){
-            if(notValidInput){
+            if(!isValidInput){
                 stringBuilder.append(", ");
             }
             stringBuilder.append("last name");
-            notValidInput = true;
+            isValidInput = false;
         }
         if(!isValidAge){
-            if(notValidInput){
+            if(!isValidInput){
                 stringBuilder.append(", ");
             }
             stringBuilder.append("age");
-            notValidInput = true;
+            isValidInput = false;
         }
         if(!isValidCity){
-            if(notValidInput){
+            if(!isValidInput){
                 stringBuilder.append(", ");
             }
             stringBuilder.append("city");
-            notValidInput = true;
+            isValidInput = false;
         }
         stringBuilder.append(". Please enter a valid data.");
-        if(notValidInput){
+        if(!isValidInput){
             JOptionPane.showMessageDialog(new JFrame(), stringBuilder.toString(),
                     "Warning", JOptionPane.ERROR_MESSAGE);
-            return false;
         }
-        return true;
+        return isValidInput;
     }
 
     private ActionListener actionOk(){

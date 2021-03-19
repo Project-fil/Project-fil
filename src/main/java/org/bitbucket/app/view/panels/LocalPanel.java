@@ -6,26 +6,10 @@ import javax.swing.*;
 
 public class LocalPanel extends JPanel {
 
-    private final JButton readButton;
-    private final JButton createButton;
-    private final JButton updateButton;
-    private final JButton deleteButton;
-
-    public JButton getReadButton() {
-        return readButton;
-    }
-
-    public JButton getCreateButton() {
-        return createButton;
-    }
-
-    public JButton getUpdateButton() {
-        return updateButton;
-    }
-
-    public JButton getDeleteButton() {
-        return deleteButton;
-    }
+    public final JButton readButton;
+    public final JButton createButton;
+    public final JButton updateButton;
+    public final JButton deleteButton;
 
     public LocalPanel(LocalCommands commands) {
 

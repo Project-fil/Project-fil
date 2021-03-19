@@ -1,6 +1,9 @@
 package org.bitbucket.app.services;
 
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.utils.FileUtils;
+import org.bitbucket.app.utils.exceptions.NoSuchIdException;
+import org.bitbucket.app.utils.exceptions.NullArgumentException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,7 +15,11 @@ public class PersonMockService implements IPersonService {
 
     @Override
     public Person create(Person createdPerson) {
-        return null;
+        if(createdPerson == null){
+            throw new NullArgumentException("Null argument exception.");
+        }
+        this.people.add(createdPerson);
+        return createdPerson;
     }
 
     @Override
@@ -27,25 +34,21 @@ public class PersonMockService implements IPersonService {
 
     @Override
     public List<Person> readAll() {
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
-        this.people.add(new Person(1234567890987654321L, "Porco", "Rosso", 34, "Venice"));
         return this.people;
     }
 
     @Override
     public Person update(Person updatedPerson) {
-        return null;
+        if(updatedPerson == null) {
+            throw new NullArgumentException("Null argument exception.");
+        }
+        for(int i = 0; i < this.people.size(); i++){
+            if(this.people.get(i).getId() == updatedPerson.getId()){
+                this.people.set(i, updatedPerson);
+                return updatedPerson;
+            }
+        }
+        throw new NoSuchIdException("There is no person with such ID.");
     }
 
     @Override
@@ -55,7 +58,13 @@ public class PersonMockService implements IPersonService {
 
     @Override
     public Person delete(long id) {
-        return null;
+        for(Person person : this.people){
+            if(person.getId() == id){
+                this.people.remove(person);
+                return person;
+            }
+        }
+        throw new NoSuchIdException("There is no person with such ID.");
     }
 
     @Override

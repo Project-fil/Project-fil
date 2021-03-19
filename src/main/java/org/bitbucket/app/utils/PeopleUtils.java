@@ -6,24 +6,24 @@ import java.util.List;
 
 public class PeopleUtils {
 
-    List<Person> sortById(List<Person> people){
-        return null;
+    public static List<Person> sortById(List<Person> people){
+        return people;
     }
 
-    List<Person> sortByFirstName(List<Person> people){
-        return null;
+    public static List<Person> sortByFirstName(List<Person> people){
+        return people;
     }
 
-    List<Person> sortByLastName(List<Person> people){
-        return null;
+    public static List<Person> sortByLastName(List<Person> people){
+        return people;
     }
 
-    List<Person> sortByAge(List<Person> people){
-        return null;
+    public static List<Person> sortByAge(List<Person> people){
+        return people;
     }
 
-    List<Person> sortByCity(List<Person> people){
-        return null;
+    public static List<Person> sortByCity(List<Person> people){
+        return people;
     }
 
 }

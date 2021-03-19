@@ -7,14 +7,19 @@ import javax.swing.*;
 
 public class CRUDPane extends JTabbedPane {
 
+    public final JPanel localPanel;
+
+    public final JPanel remotePanel;
+
     public CRUDPane(LocalCommands localCommands, RemoteCommands remoteCommands) {
+
+        this.localPanel = new LocalPanel(localCommands);
+        this.remotePanel = new RemotePanel(remoteCommands);
 
         this.setBounds(5,5,200,600);
 
-        JPanel localPanel = new LocalPanel(localCommands);
-        localPanel.setVisible(true);
-        JPanel remotePanel = new RemotePanel(remoteCommands);
-        remotePanel.setVisible(true);
+        this.localPanel.setVisible(true);
+        this.remotePanel.setVisible(true);
 
         add("Local", localPanel);
         add("Remote DB", remotePanel);
