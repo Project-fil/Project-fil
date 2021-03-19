@@ -1,4 +1,4 @@
-package org.bitbucket.app.utils.exceptions;
+package org.bitbucket.app.exceptions;
 
 public class NoSuchIdException extends IllegalArgumentException{
     public NoSuchIdException(String errorMessage, Throwable err) {

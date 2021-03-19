@@ -4,7 +4,6 @@ import org.bitbucket.app.commands.SortingCommands;
 import org.bitbucket.app.models.PeopleTableModel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class SortingButtonsPanel extends JPanel{
 
@@ -25,14 +24,15 @@ public class SortingButtonsPanel extends JPanel{
         this.peopleTableModel = peopleTableModel;
 
         this.sortByIdButton.setBounds(5, 5, 110, 30);
-        this.sortByIdButton.addActionListener(SortingCommands.sortById(this.peopleTableModel));
         this.sortByFirstNameButton.setBounds(125, 5, 110, 30);
-        this.sortByFirstNameButton.addActionListener(SortingCommands.sortByFirstName(this.peopleTableModel));
         this.sortByLastNameButton.setBounds(245, 5, 110, 30);
-        this.sortByLastNameButton.addActionListener(SortingCommands.sortByLastName(this.peopleTableModel));
         this.sortByAgeButton.setBounds(365, 5, 110, 30);
-        this.sortByAgeButton.addActionListener(SortingCommands.sortByAge(this.peopleTableModel));
         this.sortByCityButton.setBounds(485, 5, 110, 30);
+
+        this.sortByIdButton.addActionListener(SortingCommands.sortById(this.peopleTableModel));
+        this.sortByFirstNameButton.addActionListener(SortingCommands.sortByFirstName(this.peopleTableModel));
+        this.sortByLastNameButton.addActionListener(SortingCommands.sortByLastName(this.peopleTableModel));
+        this.sortByAgeButton.addActionListener(SortingCommands.sortByAge(this.peopleTableModel));
         this.sortByCityButton.addActionListener(SortingCommands.sortByCity(this.peopleTableModel));
 
         this.add(sortByIdButton);

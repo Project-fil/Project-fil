@@ -1,4 +1,4 @@
-package org.bitbucket.app.utils.exceptions;
+package org.bitbucket.app.exceptions;
 
 public class WrongFormatException extends RuntimeException{
 

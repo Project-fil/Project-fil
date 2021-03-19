@@ -1,15 +1,16 @@
 package org.bitbucket.app.fomats;
 
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class BinFormat {
 
-    public ArrayList<Person> fromFormat(byte[] serializedPeople){
+    public List<Person> fromFormat(byte[] serializedPeople){
 
         if(serializedPeople == null){
             throw new WrongFormatException("Given byte array is empty");
@@ -18,7 +19,7 @@ public class BinFormat {
             return new ArrayList<>();
         }
 
-        ArrayList<Person> people;
+        List<Person> people;
 
         try(ByteArrayInputStream byteInputStream = new ByteArrayInputStream(serializedPeople);
             ObjectInputStream objectInputStream = new ObjectInputStream(byteInputStream)) {
@@ -32,7 +33,7 @@ public class BinFormat {
 
     }
 
-    public byte[] toFormat(ArrayList<Person> people){
+    public byte[] toFormat(List<Person> people){
 
         if(people == null){
             throw new WrongFormatException("People array is null.");
@@ -54,7 +55,7 @@ public class BinFormat {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<Person> cast(Object o){
+    private List<Person> cast(Object o){
         return (ArrayList<Person>) o;
     }
 

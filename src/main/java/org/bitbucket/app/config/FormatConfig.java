@@ -7,7 +7,7 @@ import org.bitbucket.app.fomats.impl.JsonFormat;
 import org.bitbucket.app.fomats.impl.XmlFormat;
 import org.bitbucket.app.fomats.impl.YmlFormat;
 import org.bitbucket.app.services.IPersonService;
-import org.bitbucket.app.services.locale.*;
+import org.bitbucket.app.services.local.file.*;
 
 import java.io.File;
 

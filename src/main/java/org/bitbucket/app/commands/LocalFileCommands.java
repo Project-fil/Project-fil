@@ -2,6 +2,7 @@ package org.bitbucket.app.commands;
 
 import org.bitbucket.app.config.FPersonService;
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.exceptions.DialogCanceledException;
 import org.bitbucket.app.view.PersonDialog;
 import org.bitbucket.app.view.panels.PeopleTablePanel;
 
@@ -10,39 +11,44 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class LocalCommands {
+public class LocalFileCommands {
 
     private final PeopleTablePanel peopleTablePanel;
 
-    public LocalCommands(PeopleTablePanel peopleTablePanel) {
+    private static final JFileChooser fileChooser = new JFileChooser();
+
+    public LocalFileCommands(PeopleTablePanel peopleTablePanel) {
         this.peopleTablePanel = peopleTablePanel;
+        configureFileChooser();
+    }
+
+    private void configureFileChooser(){
+        FileNameExtensionFilter[] extensionFilters = new FileNameExtensionFilter[5];
+        extensionFilters[0] = new FileNameExtensionFilter(".bin", "bin");
+        extensionFilters[1] = new FileNameExtensionFilter(".csv", "csv");
+        extensionFilters[2] = new FileNameExtensionFilter(".json", "json");
+        extensionFilters[3] = new FileNameExtensionFilter(".xml", "xml");
+        extensionFilters[4] = new FileNameExtensionFilter(".yml", "yml");
+        for (FileNameExtensionFilter filter : extensionFilters) {
+            fileChooser.addChoosableFileFilter(filter);
+        }
     }
 
     public ActionListener create() {
         return e -> {
-            Person person = PersonDialog.showDialog();
-            if(person != null) {
+            try {
+                Person person = PersonDialog.showDialog();
                 this.peopleTablePanel.peopleTableModel().create(person);
                 this.peopleTablePanel.peopleTable().revalidate();
                 this.peopleTablePanel.repaint();
-            }
+            } catch (DialogCanceledException ignore) { }
         };
     }
 
-    public ActionListener read(){
+    public ActionListener read() {
         return e -> {
-            JFileChooser fileChooser = new JFileChooser();
-            FileNameExtensionFilter[] extensionFilters = new FileNameExtensionFilter[5];
-            extensionFilters[0] = new FileNameExtensionFilter(".bin", "bin");
-            extensionFilters[1] = new FileNameExtensionFilter(".csv", "csv");
-            extensionFilters[2] = new FileNameExtensionFilter(".json", "json");
-            extensionFilters[3] = new FileNameExtensionFilter(".xml", "xml");
-            extensionFilters[4] = new FileNameExtensionFilter(".yml", "yml");
-            for(FileNameExtensionFilter filter : extensionFilters){
-                fileChooser.addChoosableFileFilter(filter);
-            }
-            int rVal = fileChooser.showOpenDialog(null);
-            if(rVal == JFileChooser.APPROVE_OPTION){
+            int rVal = fileChooser.showOpenDialog(this.peopleTablePanel);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 peopleTablePanel.peopleTableModel().setPeopleService(FPersonService.chooseService(file));
                 peopleTablePanel.peopleTableModel().refresh();
@@ -57,12 +63,10 @@ public class LocalCommands {
             try {
                 Person person = this.peopleTablePanel.getSelectedPerson();
                 Person updatedPerson = PersonDialog.showDialog(person);
-                if(updatedPerson != null) {
-                    this.peopleTablePanel.peopleTableModel().update(updatedPerson);
-                    this.peopleTablePanel.peopleTable().revalidate();
-                    this.peopleTablePanel.repaint();
-                }
-            } catch (IndexOutOfBoundsException ignore){ }
+                this.peopleTablePanel.peopleTableModel().update(updatedPerson);
+                this.peopleTablePanel.peopleTable().revalidate();
+                this.peopleTablePanel.repaint();
+            } catch (IndexOutOfBoundsException | DialogCanceledException ignore) { }
         };
     }
 
@@ -74,7 +78,7 @@ public class LocalCommands {
                 this.peopleTablePanel.peopleTableModel().refresh();
                 this.peopleTablePanel.peopleTable().revalidate();
                 this.peopleTablePanel.repaint();
-            } catch (IndexOutOfBoundsException ignore){ }
+            } catch (IndexOutOfBoundsException ignore) { }
         };
     }
 

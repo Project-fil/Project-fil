@@ -1,4 +1,4 @@
-package org.bitbucket.app.utils.exceptions;
+package org.bitbucket.app.exceptions;
 
 public class DifferentArraySizesException extends RuntimeException{
     public DifferentArraySizesException(String errorMessage){

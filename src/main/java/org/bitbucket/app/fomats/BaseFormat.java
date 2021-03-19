@@ -3,11 +3,12 @@ package org.bitbucket.app.fomats;
 import org.bitbucket.app.entity.Person;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface BaseFormat {
 
-    ArrayList<Person> fromFormat(String file);
+    List<Person> fromFormat(String file);
 
-    String toFormat(ArrayList<Person> person);
+    String toFormat(List<Person> person);
 
 }

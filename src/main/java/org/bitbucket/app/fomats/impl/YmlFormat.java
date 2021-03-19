@@ -2,7 +2,7 @@ package org.bitbucket.app.fomats.impl;
 
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class YmlFormat implements BaseFormat {
 
     @Override
-    public ArrayList<Person> fromFormat(String file) {
+    public List<Person> fromFormat(String file) {
 
         ArrayList<Person> people = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class YmlFormat implements BaseFormat {
     }
 
     @Override
-    public String toFormat(ArrayList<Person> people) {
+    public String toFormat(List<Person> people) {
 
         if (people == null) {
             throw new WrongFormatException("Null input list.");

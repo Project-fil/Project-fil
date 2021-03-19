@@ -2,16 +2,17 @@ package org.bitbucket.app.fomats.impl;
 
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class XmlFormat implements BaseFormat {
 
     @Override
-    public ArrayList<Person> fromFormat(String file) {
+    public List<Person> fromFormat(String file) {
         ArrayList<Person> personList = new ArrayList<>();
         Pattern pattern = Pattern.compile("<person>.*?<id>(.*?)</id>.*?<firstName>(.*?)</firstName>.*?<lastName>(.*?)</lastName>.*?<age>(.*?)</age>.*?<city>(.*?)</city>.*?</person>",
                 Pattern.MULTILINE | Pattern.DOTALL);
@@ -23,7 +24,7 @@ public class XmlFormat implements BaseFormat {
     }
 
     @Override
-    public String toFormat(ArrayList<Person> people) throws WrongFormatException {
+    public String toFormat(List<Person> people) throws WrongFormatException {
         if(people == null) {throw new WrongFormatException("Null person");}
 
         StringBuilder result = new StringBuilder();
