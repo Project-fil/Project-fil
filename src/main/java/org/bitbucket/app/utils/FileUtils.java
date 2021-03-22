@@ -1,7 +1,7 @@
 package org.bitbucket.app.utils;
 
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
-import org.bitbucket.app.utils.exceptions.WrongPathException;
+import org.bitbucket.app.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongPathException;
 
 import java.io.*;
 import java.util.Locale;

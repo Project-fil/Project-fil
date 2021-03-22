@@ -8,9 +8,9 @@ import java.lang.reflect.Field;
 
 public class PeopleTablePanel extends JPanel {
 
-    private final JTable peopleTable;
-
     private final PeopleTableModel peopleTableModel;
+
+    private final JTable peopleTable;
 
     public JTable peopleTable() {
         return peopleTable;
@@ -20,7 +20,35 @@ public class PeopleTablePanel extends JPanel {
         return peopleTableModel;
     }
 
+    private JPanel sortingButtonsPanel;
+
+    public PeopleTablePanel(PeopleTableModel peopleTableModel){
+
+        this.setLayout(null);
+        this.setBounds(210, 15, 650, 600);
+
+        this.peopleTableModel = peopleTableModel;
+        this.peopleTable = new JTable(this.peopleTableModel);
+        this.peopleTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+        this.peopleTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+        this.peopleTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        this.peopleTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+        this.peopleTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+        this.peopleTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+
+        JScrollPane scrollPane = new JScrollPane(this.peopleTable);
+        scrollPane.setBounds(5, 5, 600, 540);
+
+        this.sortingButtonsPanel = new SortingButtonsPanel(this.peopleTableModel);
+        this.sortingButtonsPanel.setLocation(5, 550);
+        this.add(this.sortingButtonsPanel);
+
+        this.add(scrollPane);
+        this.setVisible(true);
+    }
+
     public Person getSelectedPerson(){
+
         int row = this.peopleTable().getSelectedRow();
         Person person = new Person();
         Class<? extends Person> clz = person.getClass();
@@ -43,27 +71,7 @@ public class PeopleTablePanel extends JPanel {
             illegalAccessException.printStackTrace();
         }
         return person;
-    }
 
-    public PeopleTablePanel(PeopleTableModel peopleTableModel){
-
-        this.setLayout(null);
-        this.setBounds(210, 15, 480, 500);
-
-        this.peopleTableModel = peopleTableModel;
-        this.peopleTable = new JTable(this.peopleTableModel);
-        this.peopleTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        this.peopleTable.getColumnModel().getColumn(0).setPreferredWidth(130);
-        this.peopleTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-        this.peopleTable.getColumnModel().getColumn(2).setPreferredWidth(100);
-        this.peopleTable.getColumnModel().getColumn(3).setPreferredWidth(40);
-        this.peopleTable.getColumnModel().getColumn(4).setPreferredWidth(90);
-
-        JScrollPane scrollPane = new JScrollPane(this.peopleTable);
-        scrollPane.setBounds(5, 5, 480, 500);
-
-        this.add(scrollPane);
-        this.setVisible(true);
     }
 
 }

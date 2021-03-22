@@ -3,7 +3,7 @@ package org.bitbucket.app.fomats.impl;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.utils.PatternMatcher;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
 public class JsonFormat implements BaseFormat {
 
     @Override
-    public ArrayList<Person> fromFormat(String file) throws WrongFormatException {
+    public List<Person> fromFormat(String file) throws WrongFormatException {
 
-        ArrayList<Person> personList = new ArrayList<>();
+        List<Person> personList = new ArrayList<>();
         if (!PatternMatcher.isBlank(file)) {
             List<String> personJsonList = PatternMatcher.jsonToPersonList(file);
             try {
@@ -66,8 +66,8 @@ public class JsonFormat implements BaseFormat {
         return new Person(id, firstName, lastName, age, city);
     }
 
-@Override
-    public String toFormat(ArrayList<Person> people) throws WrongFormatException {
+    @Override
+    public String toFormat(List<Person> people) throws WrongFormatException {
 
         if (people == null) {
             throw new WrongFormatException("Null argument.");

@@ -2,7 +2,7 @@ package formats;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.impl.CsvFormat;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

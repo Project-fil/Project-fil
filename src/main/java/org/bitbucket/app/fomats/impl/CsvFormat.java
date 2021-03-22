@@ -2,19 +2,20 @@ package org.bitbucket.app.fomats.impl;
 
 import org.bitbucket.app.fomats.BaseFormat;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CsvFormat implements BaseFormat {
 
     @Override
-    public ArrayList<Person> fromFormat(String file) {
+    public List<Person> fromFormat(String file) {
         if (file == null) {
             throw new WrongFormatException("File input is null.");
         }
         file = file.replaceAll("\r", "");
-        ArrayList<Person> people = new ArrayList<>();
+        List<Person> people = new ArrayList<>();
         String[] subStr;
         String[] insideSubStr;
         String insideDelimiter = ", ";
@@ -59,7 +60,7 @@ public class CsvFormat implements BaseFormat {
     }
 
     @Override
-    public String toFormat(ArrayList<Person> people) {
+    public String toFormat(List<Person> people) {
         if (people == null) {
             throw new WrongFormatException("List is null.");
         }

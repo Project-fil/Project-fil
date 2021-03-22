@@ -2,7 +2,7 @@ package org.bitbucket.app.config;
 
 import org.bitbucket.app.services.IPersonService;
 import org.bitbucket.app.utils.FileUtils;
-import org.bitbucket.app.utils.exceptions.WrongPathException;
+import org.bitbucket.app.exceptions.WrongPathException;
 
 import java.io.File;
 

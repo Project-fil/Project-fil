@@ -2,11 +2,12 @@ package formats;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.impl.YmlFormat;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class YmlFormatTest {
 
@@ -43,9 +44,10 @@ public class YmlFormatTest {
         input.add(firstPerson);
         input.add(secondPerson);
 
-        ArrayList<Person> output = ymlFormat.fromFormat(ymlFormat.toFormat(input));
+        List<Person> output = ymlFormat.fromFormat(ymlFormat.toFormat(input));
 
         Assert.assertArrayEquals(input.toArray(), output.toArray());
+
     }
 
     @Test

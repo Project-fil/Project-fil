@@ -1,15 +1,29 @@
-package org.bitbucket.app.services;
+package org.bitbucket.app.services.local.file;
 
+import org.bitbucket.app.config.FormatConfig;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.exceptions.NoSuchIdException;
 import org.bitbucket.app.exceptions.NullArgumentException;
+import org.bitbucket.app.fomats.BaseFormat;
+import org.bitbucket.app.services.IPersonService;
+import org.bitbucket.app.utils.FileUtils;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
-public class PersonMockService implements IPersonService {
+public class JsonPersonService implements IPersonService {
 
-    public List<Person> people = new ArrayList<>();
+    private final List<Person> people;
+
+    private final BaseFormat format;
+
+    private final File file;
+
+    public JsonPersonService(File file) {
+        this.file = file;
+        this.format = FormatConfig.jsonFormat();
+        this.people = format.fromFormat(FileUtils.readFile(file));
+    }
 
     @Override
     public Person create(Person createdPerson) {
@@ -17,8 +31,10 @@ public class PersonMockService implements IPersonService {
             throw new NullArgumentException("Null argument exception.");
         }
         this.people.add(createdPerson);
+        FileUtils.writeToFile(file, format.toFormat(this.people));
         return createdPerson;
     }
+
     @Override
     public List<Person> readAll() {
         return this.people;
@@ -32,6 +48,7 @@ public class PersonMockService implements IPersonService {
         for(int i = 0; i < this.people.size(); i++){
             if(this.people.get(i).getId() == updatedPerson.getId()){
                 this.people.set(i, updatedPerson);
+                FileUtils.writeToFile(file, format.toFormat(this.people));
                 return updatedPerson;
             }
         }
@@ -43,9 +60,11 @@ public class PersonMockService implements IPersonService {
         for(Person person : this.people){
             if(person.getId() == id){
                 this.people.remove(person);
+                FileUtils.writeToFile(file, format.toFormat(this.people));
                 return person;
             }
         }
         throw new NoSuchIdException("There is no person with such ID.");
     }
+
 }

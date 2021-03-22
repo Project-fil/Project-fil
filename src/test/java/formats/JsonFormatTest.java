@@ -4,9 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.bitbucket.app.fomats.impl.JsonFormat;
 import org.bitbucket.app.entity.Person;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JsonFormatTest {
 
@@ -19,7 +20,7 @@ public class JsonFormatTest {
     @Test
     public void fromFormatTest() {
 
-        ArrayList<Person> list = jf.fromFormat(onePerson);
+        List<Person> list = jf.fromFormat(onePerson);
         Assert.assertEquals(id_expected, list.get(0).getId());
         list = jf.fromFormat(twoPer);
         Assert.assertEquals(id_expected, list.get(0).getId());
@@ -30,7 +31,7 @@ public class JsonFormatTest {
     @Test
     public void fromFormatToFormatTwoPeopleEquality() {
 
-        ArrayList<Person> list = new ArrayList<>();
+        List<Person> list = new ArrayList<>();
         list.add(new Person(10000, "Denys", "Fedorovych", 18, "Kyiv"));
         list.add(jf.fromFormat(onePerson).get(0));
         Assert.assertArrayEquals(list.toArray(), jf.fromFormat(jf.toFormat(list)).toArray());
@@ -40,7 +41,7 @@ public class JsonFormatTest {
     @Test
     public void fromFormatToFormatOnePersonEquality() {
 
-        ArrayList<Person> list = new ArrayList<>();
+        List<Person> list = new ArrayList<>();
         list.add(new Person(10000, "Denys", "Fedorovych", 18, "Kyiv"));
         Assert.assertArrayEquals(list.toArray(), jf.fromFormat(jf.toFormat(list)).toArray());
 
@@ -49,7 +50,7 @@ public class JsonFormatTest {
     @Test
     public void fromFormatBlankTest() {
 
-        ArrayList<Person> list = new ArrayList<>();
+        List<Person> list = new ArrayList<>();
         Assert.assertArrayEquals(list.toArray(), jf.fromFormat("{   }").toArray());
         Assert.assertArrayEquals(list.toArray(), jf.fromFormat("{\n}").toArray());
         Assert.assertArrayEquals(list.toArray(), jf.fromFormat("{   \n\t\n   }").toArray());

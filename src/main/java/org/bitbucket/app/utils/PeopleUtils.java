@@ -1,29 +1,33 @@
 package org.bitbucket.app.utils;
 
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.utils.sort.*;
 
-import java.util.List;
+import java.util.*;
 
 public class PeopleUtils {
-
-    List<Person> sortById(List<Person> people){
-        return null;
+    public static List<Person> sortById(List<Person> people) {
+        Collections.sort(people, new SortId());
+        return people;
     }
 
-    List<Person> sortByFirstName(List<Person> people){
-        return null;
+    public static List<Person> sortByFirstName(List<Person> people){
+Collections.sort(people, new SortFirstName());
+        return people;
     }
 
-    List<Person> sortByLastName(List<Person> people){
-        return null;
+    public static List<Person> sortByLastName(List<Person> people){
+        Collections.sort(people, new SortLastName());
+        return people;
     }
 
-    List<Person> sortByAge(List<Person> people){
-        return null;
+    public static List<Person> sortByAge(List<Person> people){
+        Collections.sort(people, new SortAge());
+        return people;
     }
 
-    List<Person> sortByCity(List<Person> people){
-        return null;
+    public static List<Person> sortByCity(List<Person> people){
+        Collections.sort(people, new SortCity());
+        return people;
     }
-
 }

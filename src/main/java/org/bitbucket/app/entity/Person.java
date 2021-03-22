@@ -4,9 +4,10 @@ import org.bitbucket.app.models.PersonColumn;
 
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Person implements Serializable, Cloneable {
+public class Person implements Serializable, Cloneable{
 
     private static final long serialVersionUID = 3209363645813174245L;
 

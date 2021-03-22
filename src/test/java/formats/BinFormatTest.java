@@ -2,11 +2,12 @@ package formats;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.fomats.BinFormat;
-import org.bitbucket.app.utils.exceptions.WrongFormatException;
+import org.bitbucket.app.exceptions.WrongFormatException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BinFormatTest {
 
@@ -20,7 +21,7 @@ public class BinFormatTest {
         input.add(firstPerson);
         input.add(secondPerson);
 
-        ArrayList<Person> output = binFormat.fromFormat(binFormat.toFormat(input));
+        List<Person> output = binFormat.fromFormat(binFormat.toFormat(input));
 
         Assert.assertEquals(input, output);
     }
@@ -32,8 +33,8 @@ public class BinFormatTest {
 
     @Test
     public void fromFormatEmpty(){
-        ArrayList<Person> exp = new ArrayList<>();
-        ArrayList<Person> act = binFormat.fromFormat(new byte[0]);
+        List<Person> exp = new ArrayList<>();
+        List<Person> act = binFormat.fromFormat(new byte[0]);
         Assert.assertEquals(exp, act);
     }
 

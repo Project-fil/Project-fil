@@ -2,6 +2,8 @@ package org.bitbucket.app.models;
 
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.services.IPersonService;
+import org.bitbucket.app.utils.PeopleUtils;
+import org.bitbucket.app.view.panels.PeopleTablePanel;
 
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;
@@ -41,6 +43,31 @@ public class PeopleTableModel extends AbstractTableModel {
     public PeopleTableModel update(Person person){
         this.peopleService.update(person);
         this.refresh();
+        return this;
+    }
+
+    public PeopleTableModel sortById(){
+        this.people = PeopleUtils.sortById(this.people);
+        return this;
+    }
+
+    public PeopleTableModel sortByFirstName(){
+        this.people = PeopleUtils.sortByFirstName(this.people);
+        return this;
+    }
+
+    public PeopleTableModel sortByLastName(){
+        this.people = PeopleUtils.sortByLastName(this.people);
+        return this;
+    }
+
+    public PeopleTableModel sortByAge(){
+        this.people = PeopleUtils.sortByAge(this.people);
+        return this;
+    }
+
+    public PeopleTableModel sortByCity(){
+        this.people = PeopleUtils.sortByCity(this.people);
         return this;
     }
 
