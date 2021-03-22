@@ -6,28 +6,30 @@ import org.bitbucket.app.utils.sort.*;
 import java.util.*;
 
 public class PeopleUtils {
+
     public static List<Person> sortById(List<Person> people) {
-        Collections.sort(people, new SortId());
+        people.sort(new SortId());
         return people;
     }
 
     public static List<Person> sortByFirstName(List<Person> people){
-Collections.sort(people, new SortFirstName());
+        people.sort(new SortFirstName());
         return people;
     }
 
     public static List<Person> sortByLastName(List<Person> people){
-        Collections.sort(people, new SortLastName());
+        people.sort(new SortLastName());
         return people;
     }
 
     public static List<Person> sortByAge(List<Person> people){
-        Collections.sort(people, new SortAge());
+        people.sort(new SortAge());
         return people;
     }
 
     public static List<Person> sortByCity(List<Person> people){
-        Collections.sort(people, new SortCity());
+        people.sort(new SortCity());
         return people;
     }
+
 }

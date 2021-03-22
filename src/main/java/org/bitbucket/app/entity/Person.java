@@ -66,11 +66,13 @@ public class Person implements Serializable, Cloneable{
 
     @Override
     public String toString() {
-        return  "id: \t\t"    + id         + "\n" +
-                "firstName: \t" + firstName  + "\n" +
-                "lastName: \t"  + lastName   + "\n" +
-                "age: \t\t"     + age        + "\n" +
-                "city: \t\t"    + city;
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", city='" + city + '\'' +
+                '}';
     }
 
     public long getId() {
