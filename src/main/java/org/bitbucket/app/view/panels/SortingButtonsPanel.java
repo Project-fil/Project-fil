@@ -1,13 +1,12 @@
 package org.bitbucket.app.view.panels;
 
 import org.bitbucket.app.commands.SortingCommands;
-import org.bitbucket.app.models.PeopleTableModel;
 
 import javax.swing.*;
 
 public class SortingButtonsPanel extends JPanel{
 
-    private PeopleTableModel peopleTableModel;
+    private PeopleTablePanel peopleTablePanel;
 
     private final JButton sortByIdButton = new JButton("Id");
 
@@ -19,9 +18,9 @@ public class SortingButtonsPanel extends JPanel{
 
     private final JButton sortByCityButton = new JButton("City");
 
-    public SortingButtonsPanel(PeopleTableModel peopleTableModel) {
+    public SortingButtonsPanel(PeopleTablePanel peopleTablePanel) {
 
-        this.peopleTableModel = peopleTableModel;
+        this.peopleTablePanel = peopleTablePanel;
 
         this.sortByIdButton.setBounds(5, 5, 110, 30);
         this.sortByFirstNameButton.setBounds(125, 5, 110, 30);
@@ -29,11 +28,11 @@ public class SortingButtonsPanel extends JPanel{
         this.sortByAgeButton.setBounds(365, 5, 110, 30);
         this.sortByCityButton.setBounds(485, 5, 110, 30);
 
-        this.sortByIdButton.addActionListener(SortingCommands.sortById(this.peopleTableModel));
-        this.sortByFirstNameButton.addActionListener(SortingCommands.sortByFirstName(this.peopleTableModel));
-        this.sortByLastNameButton.addActionListener(SortingCommands.sortByLastName(this.peopleTableModel));
-        this.sortByAgeButton.addActionListener(SortingCommands.sortByAge(this.peopleTableModel));
-        this.sortByCityButton.addActionListener(SortingCommands.sortByCity(this.peopleTableModel));
+        this.sortByIdButton.addActionListener(SortingCommands.sortById(this.peopleTablePanel));
+        this.sortByFirstNameButton.addActionListener(SortingCommands.sortByFirstName(this.peopleTablePanel));
+        this.sortByLastNameButton.addActionListener(SortingCommands.sortByLastName(this.peopleTablePanel));
+        this.sortByAgeButton.addActionListener(SortingCommands.sortByAge(this.peopleTablePanel));
+        this.sortByCityButton.addActionListener(SortingCommands.sortByCity(this.peopleTablePanel));
 
         this.add(sortByIdButton);
         this.add(sortByFirstNameButton);

@@ -39,7 +39,7 @@ public class PeopleTablePanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(this.peopleTable);
         scrollPane.setBounds(5, 5, 600, 540);
 
-        this.sortingButtonsPanel = new SortingButtonsPanel(this.peopleTableModel);
+        this.sortingButtonsPanel = new SortingButtonsPanel(this);
         this.sortingButtonsPanel.setLocation(5, 550);
         this.add(this.sortingButtonsPanel);
 

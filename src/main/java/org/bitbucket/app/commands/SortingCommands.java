@@ -1,29 +1,44 @@
 package org.bitbucket.app.commands;
 
-import org.bitbucket.app.models.PeopleTableModel;
+import org.bitbucket.app.view.panels.PeopleTablePanel;
 
 import java.awt.event.ActionListener;
 
 public class SortingCommands {
 
-    public static ActionListener sortById(PeopleTableModel peopleTableModel){
-        return e -> peopleTableModel.sortById();
+    public static ActionListener sortById(PeopleTablePanel peopleTablePanel){
+        return e -> {
+            peopleTablePanel.peopleTableModel().sortById();
+            peopleTablePanel.repaint();
+        };
     }
 
-    public static ActionListener sortByFirstName(PeopleTableModel peopleTableModel){
-        return e -> peopleTableModel.sortByFirstName();
+    public static ActionListener sortByFirstName(PeopleTablePanel peopleTablePanel){
+        return e -> {
+            peopleTablePanel.peopleTableModel().sortByFirstName();
+            peopleTablePanel.repaint();
+        };
     }
 
-    public static ActionListener sortByLastName(PeopleTableModel peopleTableModel){
-        return e -> peopleTableModel.sortByLastName();
+    public static ActionListener sortByLastName(PeopleTablePanel peopleTablePanel){
+        return e -> {
+            peopleTablePanel.peopleTableModel().sortByLastName();
+            peopleTablePanel.repaint();
+        };
     }
 
-    public static ActionListener sortByAge(PeopleTableModel peopleTableModel){
-        return e -> peopleTableModel.sortByAge();
+    public static ActionListener sortByAge(PeopleTablePanel peopleTablePanel){
+        return e -> {
+            peopleTablePanel.peopleTableModel().sortByAge();
+            peopleTablePanel.repaint();
+        };
     }
 
-    public static ActionListener sortByCity(PeopleTableModel peopleTableModel){
-        return e -> peopleTableModel.sortByCity();
+    public static ActionListener sortByCity(PeopleTablePanel peopleTablePanel){
+        return e -> {
+            peopleTablePanel.peopleTableModel().sortByCity();
+            peopleTablePanel.repaint();
+        };
     }
 
 }
