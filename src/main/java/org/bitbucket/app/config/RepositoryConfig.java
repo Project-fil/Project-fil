@@ -13,10 +13,20 @@ public class RepositoryConfig {
         return new GraphDBPeopleRepository();
     }
     public static IPeopleRepository h2PeopleRepository() {
-        return new H2PeopleRepository();
+        return new H2PeopleRepository(new JDBCConnectionPool(
+                30000,
+                "org.h2.Driver",
+                "jdbc:h2://localhost:8082/people",
+                "root",
+                "password"));
     }
     public static IPeopleRepository mongoDBPeopleRepository() {
-        return new MongoDBPeopleRepository();
+        return new MongoDBPeopleRepository(new JDBCConnectionPool(
+                30000,
+                "mongodb.jdbc.MongoDriver",
+                "jdbc:mongodb://localhost:27017/people",
+                "root",
+                "password"));
     }
     public static IPeopleRepository mySqlPeopleRepository() {
         return new MySqlPeopleRepository(new JDBCConnectionPool(
