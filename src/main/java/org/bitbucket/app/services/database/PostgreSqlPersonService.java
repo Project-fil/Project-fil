@@ -25,8 +25,7 @@ public class PostgreSqlPersonService implements IPersonService {
 
     @Override
     public Person update(Person updatedPerson) {
-        this.repository.update(updatedPerson);
-        return new Person(updatedPerson);
+        return null;
     }
 
     @Override

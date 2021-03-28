@@ -46,8 +46,8 @@ public class RepositoryConfig {
         return new PostgreSQLPeopleRepository(new JDBCConnectionPool(
                 30000,
                 "org.postgresql.Driver",
-                "jdbc:postgresql://localhost:5432/crud",
-                "root",
+                "jdbc:postgresql://localhost:5431/people",
+                "postgres",
                 "password"));
     }
     public static IPeopleRepository redisPeopleRepository() {
