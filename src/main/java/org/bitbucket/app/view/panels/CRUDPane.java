@@ -1,6 +1,6 @@
 package org.bitbucket.app.view.panels;
 
-import org.bitbucket.app.commands.LocalFileCommands;
+import org.bitbucket.app.commands.FileCommands;
 import org.bitbucket.app.commands.DatabaseCommands;
 
 import javax.swing.*;
@@ -11,9 +11,9 @@ public class CRUDPane extends JTabbedPane {
 
     public final JPanel remotePanel;
 
-    public CRUDPane(LocalFileCommands localFileCommands, DatabaseCommands databaseCommands) {
+    public CRUDPane(FileCommands fileCommands, DatabaseCommands databaseCommands) {
 
-        this.localPanel = new LocalPanel(localFileCommands);
+        this.localPanel = new LocalPanel(fileCommands);
         this.remotePanel = new RemotePanel(databaseCommands);
 
         this.setBounds(5,5,200,600);

@@ -1,6 +1,6 @@
 package org.bitbucket.app.commands;
 
-import org.bitbucket.app.config.FPersonService;
+import org.bitbucket.app.config.FileServiceChooser;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.exceptions.DialogCanceledException;
 import org.bitbucket.app.view.PersonDialog;
@@ -11,13 +11,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class LocalFileCommands {
+public class FileCommands {
 
     private final PeopleTablePanel peopleTablePanel;
 
     private static final JFileChooser fileChooser = new JFileChooser();
 
-    public LocalFileCommands(PeopleTablePanel peopleTablePanel) {
+    public FileCommands(PeopleTablePanel peopleTablePanel) {
         this.peopleTablePanel = peopleTablePanel;
         configureFileChooser();
     }
@@ -50,7 +50,7 @@ public class LocalFileCommands {
             int rVal = fileChooser.showOpenDialog(this.peopleTablePanel);
             if (rVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                peopleTablePanel.peopleTableModel().setPeopleService(FPersonService.chooseService(file));
+                peopleTablePanel.peopleTableModel().setPeopleService(FileServiceChooser.chooseService(file));
                 peopleTablePanel.peopleTableModel().refresh();
                 peopleTablePanel.peopleTable().revalidate();
                 peopleTablePanel.repaint();
