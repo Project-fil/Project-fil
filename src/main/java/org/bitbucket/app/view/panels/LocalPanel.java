@@ -1,6 +1,6 @@
 package org.bitbucket.app.view.panels;
 
-import org.bitbucket.app.commands.LocalFileCommands;
+import org.bitbucket.app.commands.FileCommands;
 
 import javax.swing.*;
 
@@ -11,7 +11,7 @@ public class LocalPanel extends JPanel {
     public final JButton updateButton;
     public final JButton deleteButton;
 
-    public LocalPanel(LocalFileCommands commands) {
+    public LocalPanel(FileCommands commands) {
 
         readButton = new JButton("Read");
         readButton.setSize(185, 30);

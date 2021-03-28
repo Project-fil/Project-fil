@@ -1,6 +1,6 @@
 package org.bitbucket.app.commands;
 
-import org.bitbucket.app.config.FDBService;
+import org.bitbucket.app.config.DatabaseServiceChooser;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.exceptions.DialogCanceledException;
 import org.bitbucket.app.view.PersonDialog;
@@ -30,7 +30,7 @@ public class DatabaseCommands {
 
     public ActionListener read(String dbSelected) {
         return e -> {
-            peopleTablePanel.peopleTableModel().setPeopleService(FDBService.chooseService(dbSelected));
+            peopleTablePanel.peopleTableModel().setPeopleService(DatabaseServiceChooser.chooseService(dbSelected));
             peopleTablePanel.peopleTableModel().refresh();
             this.peopleTablePanel.peopleTable().revalidate();
             peopleTablePanel.repaint();

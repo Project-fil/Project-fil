@@ -23,8 +23,7 @@ public class H2PersonService implements IPersonService {
     }
 
     @Override
-    public Person delete(long id) {
-        return null;
+    public void delete(long id) {
     }
 
 }

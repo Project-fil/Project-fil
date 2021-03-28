@@ -23,8 +23,7 @@ public class MongoDBPersonService implements IPersonService {
     }
 
     @Override
-    public Person delete(long id) {
-        return null;
+    public void delete(long id) {
     }
 
 }

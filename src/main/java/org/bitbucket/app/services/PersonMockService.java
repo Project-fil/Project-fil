@@ -39,13 +39,8 @@ public class PersonMockService implements IPersonService {
     }
 
     @Override
-    public Person delete(long id) {
-        for(Person person : this.people){
-            if(person.getId() == id){
-                this.people.remove(person);
-                return person;
-            }
-        }
+    public void delete(long id) {
+        this.people.removeIf(person -> person.getId() == id);
         throw new NoSuchIdException("There is no person with such ID.");
     }
 }

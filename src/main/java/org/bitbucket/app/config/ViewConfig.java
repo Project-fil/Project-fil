@@ -1,6 +1,6 @@
 package org.bitbucket.app.config;
 
-import org.bitbucket.app.commands.LocalFileCommands;
+import org.bitbucket.app.commands.FileCommands;
 import org.bitbucket.app.commands.DatabaseCommands;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.models.PeopleTableModel;
@@ -26,23 +26,23 @@ public class ViewConfig{
         return new PeopleTablePanel(startingPeopleTableModel);
     }
 
-    public static LocalFileCommands localFileCommands(PeopleTablePanel peopleTablePanel){
-        return new LocalFileCommands(peopleTablePanel);
+    public static FileCommands localFileCommands(PeopleTablePanel peopleTablePanel){
+        return new FileCommands(peopleTablePanel);
     }
 
     public static DatabaseCommands databaseCommands(PeopleTablePanel peopleTablePanel){
         return new DatabaseCommands(peopleTablePanel);
     }
 
-    public static CRUDPane crudPane(LocalFileCommands localFileCommands, DatabaseCommands databaseCommands){
-        return new CRUDPane(localFileCommands, databaseCommands);
+    public static CRUDPane crudPane(FileCommands fileCommands, DatabaseCommands databaseCommands){
+        return new CRUDPane(fileCommands, databaseCommands);
     }
 
     public static ApplicationFrame frame(){
         PeopleTablePanel peopleTablePanel = peopleTablePanel();
-        LocalFileCommands localFileCommands = localFileCommands(peopleTablePanel);
+        FileCommands fileCommands = localFileCommands(peopleTablePanel);
         DatabaseCommands databaseCommands = databaseCommands(peopleTablePanel);
-        CRUDPane crudPane = crudPane(localFileCommands, databaseCommands);
+        CRUDPane crudPane = crudPane(fileCommands, databaseCommands);
         return new ApplicationFrame(peopleTablePanel, crudPane);
     }
 

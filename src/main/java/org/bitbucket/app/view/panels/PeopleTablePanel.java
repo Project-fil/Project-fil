@@ -28,6 +28,7 @@ public class PeopleTablePanel extends JPanel {
         this.setBounds(210, 5, 650, 600);
 
         this.peopleTableModel = peopleTableModel;
+
         this.peopleTable = new JTable(this.peopleTableModel);
         this.peopleTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         this.peopleTable.getColumnModel().getColumn(0).setPreferredWidth(200);
