@@ -9,11 +9,11 @@ public class DatabaseServiceChooser {
         switch (database){
             case "Cassandra":
                 return ServiceConfig.cassandraPersonService();
-            case "Graphdb":
+            case "GraphDB":
                 return ServiceConfig.graphDBPersonService();
             case "H2":
                 return ServiceConfig.h2PersonService();
-            case "Mongodb":
+            case "MongoDB":
                 return ServiceConfig.mongoDBPersonService();
             case "MySQL":
                 return ServiceConfig.mySqlPersonService();

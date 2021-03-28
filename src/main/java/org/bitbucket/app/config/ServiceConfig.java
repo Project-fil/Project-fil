@@ -121,7 +121,7 @@ public class ServiceConfig {
     }
 
     public static IPersonService redisPersonService(){
-        IPersonService origin = new RedisPersonService();
+        IPersonService origin = new RedisPersonService(RepositoryConfig.redisPeopleRepository());
         InvocationHandler handler = new PersonServiceHandler(origin);
         return (IPersonService) Proxy.newProxyInstance(
                 origin.getClass().getClassLoader(),

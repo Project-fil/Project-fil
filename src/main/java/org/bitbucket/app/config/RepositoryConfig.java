@@ -22,9 +22,9 @@ public class RepositoryConfig {
         return new MySqlPeopleRepository(new JDBCConnectionPool(
                 30000,
                 "com.mysql.cj.jdbc.Driver",
-                "jdbc:mysql://localhost:3305/people",
+                "jdbc:mysql://localhost:3305/crud",
                 "root",
-                "password"));
+                "12345"));
     }
     public static IPeopleRepository postgreSQLPeopleRepository() {
         return new PostgreSQLPeopleRepository(new JDBCConnectionPool(
