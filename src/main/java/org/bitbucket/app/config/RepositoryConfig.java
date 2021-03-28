@@ -22,7 +22,7 @@ public class RepositoryConfig {
         return new MySqlPeopleRepository(new JDBCConnectionPool(
                 30000,
                 "com.mysql.cj.jdbc.Driver",
-                "jdbc:mysql://localhost:3306/crud",
+                "jdbc:mysql://localhost:3305/crud",
                 "root",
                 "12345"));
     }
