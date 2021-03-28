@@ -81,7 +81,7 @@ public class ServiceConfig {
     }
 
     public static IPersonService h2PersonService(){
-        IPersonService origin = new H2PersonService();
+        IPersonService origin = new H2PersonService(RepositoryConfig.h2PeopleRepository());
         InvocationHandler handler = new PersonServiceHandler(origin);
         return (IPersonService) Proxy.newProxyInstance(
                 origin.getClass().getClassLoader(),
@@ -91,7 +91,7 @@ public class ServiceConfig {
     }
 
     public static IPersonService mongoDBPersonService(){
-        IPersonService origin = new MongoDBPersonService();
+        IPersonService origin = new MongoDBPersonService(RepositoryConfig.mongoDBPeopleRepository());
         InvocationHandler handler = new PersonServiceHandler(origin);
         return (IPersonService) Proxy.newProxyInstance(
                 origin.getClass().getClassLoader(),
