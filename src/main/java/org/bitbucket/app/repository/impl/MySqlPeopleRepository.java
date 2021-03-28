@@ -85,7 +85,7 @@ public class MySqlPeopleRepository implements IPeopleRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            this.connectionPool .parking(connection);
+            this.connectionPool.parking(connection);
         }
     }
 

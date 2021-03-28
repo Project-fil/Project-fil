@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PostgreSQLPeopleRepository implements IPeopleRepository {
 
-    private JDBCConnectionPool connectionPool;
+    JDBCConnectionPool connectionPool;
 
     public PostgreSQLPeopleRepository(JDBCConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

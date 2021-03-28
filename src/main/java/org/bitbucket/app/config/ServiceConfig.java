@@ -111,7 +111,7 @@ public class ServiceConfig {
     }
 
     public static IPersonService postgreSqlPersonService(){
-        IPersonService origin = new PostgreSqlPersonService();
+        IPersonService origin = new PostgreSqlPersonService(RepositoryConfig.postgreSQLPeopleRepository());
         InvocationHandler handler = new PersonServiceHandler(origin);
         return (IPersonService) Proxy.newProxyInstance(
                 origin.getClass().getClassLoader(),
