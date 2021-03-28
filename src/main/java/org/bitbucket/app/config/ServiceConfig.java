@@ -71,7 +71,7 @@ public class ServiceConfig {
     }
 
     public static IPersonService graphDBPersonService(){
-        IPersonService origin = new GraphDBPersonService();
+        IPersonService origin = new GraphDBPersonService(RepositoryConfig.graphDBPeopleRepository());
         InvocationHandler handler = new PersonServiceHandler(origin);
         return (IPersonService) Proxy.newProxyInstance(
                 origin.getClass().getClassLoader(),

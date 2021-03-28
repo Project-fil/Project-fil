@@ -13,7 +13,7 @@ public class RepositoryConfig {
         return new GraphDBPeopleRepository(new JDBCConnectionPool(
                 30000,
                 "org.graphdb.driver",
-                "jdbc:orient://localhost",
+                "jdbc:orient://localhost:7200/people",
                 "root",
                 "password"));
     }
