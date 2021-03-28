@@ -25,7 +25,7 @@ public class PeopleTablePanel extends JPanel {
     public PeopleTablePanel(PeopleTableModel peopleTableModel){
 
         this.setLayout(null);
-        this.setBounds(210, 15, 650, 600);
+        this.setBounds(210, 5, 650, 600);
 
         this.peopleTableModel = peopleTableModel;
         this.peopleTable = new JTable(this.peopleTableModel);

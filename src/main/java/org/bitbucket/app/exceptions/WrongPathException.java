@@ -8,5 +8,4 @@ public class WrongPathException extends IllegalArgumentException {
     public WrongPathException(String message){
         super(message);
     }
-
 }

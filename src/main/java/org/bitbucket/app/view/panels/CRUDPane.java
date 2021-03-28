@@ -16,7 +16,7 @@ public class CRUDPane extends JTabbedPane {
         this.localPanel = new LocalPanel(localFileCommands);
         this.remotePanel = new RemotePanel(databaseCommands);
 
-        this.setBounds(5,5,200,600);
+        this.setBounds(5,8,200,582);
 
         this.localPanel.setVisible(true);
         this.remotePanel.setVisible(true);
