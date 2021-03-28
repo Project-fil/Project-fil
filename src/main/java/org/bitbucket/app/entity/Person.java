@@ -43,6 +43,14 @@ public class Person implements Serializable, Cloneable{
         this.city = city;
     }
 
+    public Person(Person another){
+        this.id = another.id;
+        this.firstName = another.firstName;
+        this.lastName = another.lastName;
+        this.age = another.age;
+        this.city = another.city;
+    }
+
     public Person() {
         this.id = 0;
         this.firstName = "firstName";

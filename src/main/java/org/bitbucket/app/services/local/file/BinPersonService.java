@@ -56,12 +56,11 @@ public class BinPersonService implements IPersonService {
     }
 
     @Override
-    public Person delete(long id) {
+    public void delete(long id) {
         for(Person person : this.people){
             if(person.getId() == id){
                 this.people.remove(person);
                 FileUtils.writeToBinFile(file, format.toFormat(this.people));
-                return person;
             }
         }
         throw new NoSuchIdException("There is no person with such ID.");

@@ -52,7 +52,7 @@ public class LocalFileCommands {
                 File file = fileChooser.getSelectedFile();
                 peopleTablePanel.peopleTableModel().setPeopleService(FPersonService.chooseService(file));
                 peopleTablePanel.peopleTableModel().refresh();
-                this.peopleTablePanel.peopleTable().revalidate();
+                peopleTablePanel.peopleTable().revalidate();
                 peopleTablePanel.repaint();
             }
         };
