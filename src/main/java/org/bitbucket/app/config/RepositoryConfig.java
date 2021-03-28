@@ -39,7 +39,7 @@ public class RepositoryConfig {
                 "com.mysql.cj.jdbc.Driver",
                 "jdbc:mysql://localhost:3305/crud",
                 "root",
-                "12345"));
+                "password"));
     }
     public static IPeopleRepository postgreSQLPeopleRepository() {
         return new PostgreSQLPeopleRepository(new JDBCConnectionPool(
