@@ -20,9 +20,9 @@ public class PostgreSQLPeopleRepository implements IPeopleRepository {
     public Person create(Person p) {
         long id = 0;
         Connection connection = this.connectionPool.connection();
-        String sql = "insert into people (first_name, last_name, age, city) values(?, ?, ?, ?)";
+        String postgresql = "insert into people (first_name, last_name, age, city) values(?, ?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(postgresql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, p.getFirstName());
             statement.setString(2, p.getLastName());
             statement.setInt(3, p.getAge());
@@ -46,8 +46,8 @@ public class PostgreSQLPeopleRepository implements IPeopleRepository {
     public List<Person> readAll() {
         List<Person> result = new ArrayList<>();
         Connection connection = this.connectionPool.connection();
-        String sql = "select * from people";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        String postgresql = "select * from people";
+        try (PreparedStatement statement = connection.prepareStatement(postgresql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Person p = new Person(
@@ -70,8 +70,8 @@ public class PostgreSQLPeopleRepository implements IPeopleRepository {
     @Override
     public void update(Person p) {
         Connection connection = this.connectionPool.connection();
-        String sql = "update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        String postgresql = "update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(postgresql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, p.getFirstName());
             statement.setString(2, p.getLastName());
             statement.setInt(3, p.getAge());
@@ -92,8 +92,8 @@ public class PostgreSQLPeopleRepository implements IPeopleRepository {
     @Override
     public void delete(long id) {
         Connection connection = this.connectionPool.connection();
-        String sql = "delete from people where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        String postgresql = "delete from people where id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(postgresql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -7,11 +7,17 @@ import org.bitbucket.app.utils.JDBCConnectionPool;
 public class RepositoryConfig {
 
     public static IPeopleRepository cassandraPeopleRepository() {
-        return new CassandraPeopleRepository();
+        return new CassandraPeopleRepository(new JDBCConnectionPool(
+                30000,
+                "cdata.jdbc.cassandra.CassandraDriver",
+                "jdbc:cassandra:Database=MyCassandraDB://localhost:7000/people",
+                "root",
+                "password"));
     }
     public static IPeopleRepository graphDBPeopleRepository() {
         return new GraphDBPeopleRepository();
     }
+
     public static IPeopleRepository h2PeopleRepository() {
         return new H2PeopleRepository(new JDBCConnectionPool(
                 30000,
@@ -45,7 +51,12 @@ public class RepositoryConfig {
                 "password"));
     }
     public static IPeopleRepository redisPeopleRepository() {
-        return new RedisPeopleRepository();
+        return new RedisPeopleRepository(new JDBCConnectionPool(
+                30000,
+                "cdata.jdbc.redis.RedisDriver",
+                "jdbc:redis:Server=127.0.0.1//localhost:6379/crud",
+                "root",
+                "password"));
     }
 
 }
