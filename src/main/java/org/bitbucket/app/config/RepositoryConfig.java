@@ -10,7 +10,12 @@ public class RepositoryConfig {
         return new CassandraPeopleRepository();
     }
     public static IPeopleRepository graphDBPeopleRepository() {
-        return new GraphDBPeopleRepository();
+        return new GraphDBPeopleRepository(new JDBCConnectionPool(
+                30000,
+                "org.graphdb.driver",
+                "jdbc:orient://localhost",
+                "root",
+                "password"));
     }
     public static IPeopleRepository h2PeopleRepository() {
         return new H2PeopleRepository(new JDBCConnectionPool(
