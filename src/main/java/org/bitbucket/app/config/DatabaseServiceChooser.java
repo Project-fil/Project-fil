@@ -7,19 +7,19 @@ public class DatabaseServiceChooser {
 
     public static IPersonService chooseService(String database){
         switch (database){
-            case "cassandra":
+            case "Cassandra":
                 return ServiceConfig.cassandraPersonService();
-            case "graphdb":
+            case "Graphdb":
                 return ServiceConfig.graphDBPersonService();
-            case "h2":
+            case "H2":
                 return ServiceConfig.h2PersonService();
-            case "mongodb":
+            case "Mongodb":
                 return ServiceConfig.mongoDBPersonService();
-            case "mysql":
+            case "MySQL":
                 return ServiceConfig.mySqlPersonService();
-            case "postgresql":
+            case "PostgreSQL":
                 return ServiceConfig.postgreSqlPersonService();
-            case "redis":
+            case "Redis":
                 return ServiceConfig.redisPersonService();
         }
         throw new NoSuchDatabaseException("There is no such database.");

@@ -13,7 +13,7 @@ public class RemotePanel extends JPanel {
     public final JButton deleteButtonDb;
 
     public RemotePanel(DatabaseCommands commands) {
-        String[] databaseArray = {"MySql", "PostgreSQL", "H2", "MongoDB", "Redis", "Cassandra", "GraphDB"};
+        String[] databaseArray = {"MySQL", "PostgreSQL", "H2", "MongoDB", "Redis", "Cassandra", "GraphDB"};
 
         databaseLabel = new JLabel("Select Database");
         databaseLabel.setSize(130, 20);
@@ -25,7 +25,7 @@ public class RemotePanel extends JPanel {
         }
         databaseSelectBox.setSize(185, 30);
         databaseSelectBox.setLocation(5, 40);
-        databaseSelectBox.addActionListener(commands.read(String.valueOf(databaseSelectBox.getSelectedItem()).toLowerCase()));
+        databaseSelectBox.addActionListener(commands.read());
 
         createButtonDb = new JButton("Create new record");
         createButtonDb.setSize(185, 30);

@@ -6,6 +6,7 @@ import org.bitbucket.app.exceptions.DialogCanceledException;
 import org.bitbucket.app.view.PersonDialog;
 import org.bitbucket.app.view.panels.PeopleTablePanel;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class DatabaseCommands {
@@ -28,9 +29,12 @@ public class DatabaseCommands {
         };
     }
 
-    public ActionListener read(String dbSelected) {
+    public ActionListener read() {
         return e -> {
-            peopleTablePanel.peopleTableModel().setPeopleService(DatabaseServiceChooser.chooseService(dbSelected));
+            JComboBox comboBox = (JComboBox) e.getSource();
+            String selectedDatabase = (String) comboBox.getSelectedItem();
+            assert selectedDatabase != null;
+            peopleTablePanel.peopleTableModel().setPeopleService(DatabaseServiceChooser.chooseService(selectedDatabase));
             peopleTablePanel.peopleTableModel().refresh();
             this.peopleTablePanel.peopleTable().revalidate();
             peopleTablePanel.repaint();

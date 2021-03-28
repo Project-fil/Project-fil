@@ -11,15 +11,15 @@ public class FileServiceChooser {
     public static IPersonService chooseService(File file){
         switch (FileUtils.getExtension(file)){
             case "bin":
-                return FormatConfig.binPersonService(file);
+                return ServiceConfig.binPersonService(file);
             case "csv":
-                return FormatConfig.csvPersonService(file);
+                return ServiceConfig.csvPersonService(file);
             case "json":
-                return FormatConfig.jsonPersonService(file);
+                return ServiceConfig.jsonPersonService(file);
             case "xml":
-                return FormatConfig.xmlPersonService(file);
+                return ServiceConfig.xmlPersonService(file);
             case "yml":
-                return FormatConfig.ymlPersonService(file);
+                return ServiceConfig.ymlPersonService(file);
         }
         throw new WrongPathException("Extension of a file is not supported.");
     }
