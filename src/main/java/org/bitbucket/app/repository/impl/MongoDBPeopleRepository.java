@@ -28,7 +28,6 @@ public class MongoDBPeopleRepository implements IPeopleRepository {
 
     @Override
     public Person create(Person p) {
-        System.out.println(connectionString);
         MongoClient mongoClient = new MongoClient(
                 new MongoClientURI(connectionString)
         );
@@ -68,6 +67,12 @@ public class MongoDBPeopleRepository implements IPeopleRepository {
 
     @Override
     public void update(Person p) {
+        MongoClient mongoClient = new MongoClient(
+                new MongoClientURI(connectionString)
+        );
+        MongoDatabase database = mongoClient.getDatabase(this.database);
+        MongoCollection<Document> collection = database.getCollection("people");
+
     }
 
     @Override

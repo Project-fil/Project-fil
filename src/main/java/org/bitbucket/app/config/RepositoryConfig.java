@@ -20,12 +20,13 @@ public class RepositoryConfig {
 
     public static IPeopleRepository h2PeopleRepository() {
         return new H2PeopleRepository(new JDBCConnectionPool(
-                30000,
+                300000,
                 "org.h2.Driver",
-                "jdbc:h2://localhost:8082/people",
-                "root",
-                "password"));
+                "jdbc:h2:~/test",
+                "",
+                ""));
     }
+
     public static IPeopleRepository mongoDBPeopleRepository() {
         return new MongoDBPeopleRepository(
                 "localhost",
