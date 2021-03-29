@@ -13,18 +13,17 @@ public class CassandraPeopleRepository implements IPeopleRepository {
 
     private final Session session;
 
-    public CassandraPeopleRepository() {
+    public CassandraPeopleRepository(String contactPoint, String user, String password, int port, String keyspace) {
         this.cluster = Cluster.builder()
-                .addContactPoint("127.0.0.1")
-                .withCredentials("cassandra", "cassandra")
-                .withPort(9042)
+                .addContactPoint(contactPoint)
+                .withCredentials(user, password)
+                .withPort(port)
                 .build();
-        this.session = this.cluster.connect("people");
+        this.session = this.cluster.connect(keyspace);
     }
 
     @Override
     public Person create(Person p) {
-
         PreparedStatement statement =
                 this.session.prepare("insert into people (id, first_name, last_name, age, city) values (?, ?, ?, ?, ?)");
         this.session.execute(statement.bind(

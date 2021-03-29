@@ -7,7 +7,13 @@ import org.bitbucket.app.utils.JDBCConnectionPool;
 public class RepositoryConfig {
 
     public static IPeopleRepository cassandraPeopleRepository() {
-        return new CassandraPeopleRepository();
+        return new CassandraPeopleRepository(
+                "127.0.0.1",
+                "cassandra",
+                "cassandra",
+                9042,
+                "people"
+        );
     }
     public static IPeopleRepository graphDBPeopleRepository() {
         return new GraphDBPeopleRepository(new JDBCConnectionPool(
