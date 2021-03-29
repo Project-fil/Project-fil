@@ -1,0 +1,12 @@
+create database people
+people> create schema people
+people> create table people.people
+        (
+        	id bigserial
+        		constraint people_pk
+        			primary key,
+        	first_name text,
+        	last_name text,
+        	age int,
+        	city text
+        )
