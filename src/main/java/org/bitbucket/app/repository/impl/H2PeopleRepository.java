@@ -64,7 +64,8 @@ public class H2PeopleRepository implements IPeopleRepository {
         } finally {
             this.connectionPool.parking(connection);
         }
-        return result;    }
+        return result;
+    }
 
     @Override
     public void update(Person p) {
@@ -84,9 +85,8 @@ public class H2PeopleRepository implements IPeopleRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            this.connectionPool .parking(connection);
+            this.connectionPool.parking(connection);
         }
-
     }
 
     @Override
@@ -102,4 +102,5 @@ public class H2PeopleRepository implements IPeopleRepository {
             this.connectionPool.parking(connection);
         }
     }
+
 }
