@@ -15,8 +15,7 @@ public class PostgreSqlPersonService implements IPersonService {
     }
 
     @Override
-    public Person create(Person createdPerson) {
-        return this.repository.create(createdPerson);
+    public Person create(Person createdPerson) {return this.repository.create(createdPerson);
     }
 
     @Override
@@ -26,13 +25,11 @@ public class PostgreSqlPersonService implements IPersonService {
 
     @Override
     public Person update(Person updatedPerson) {
-        this.repository.update(updatedPerson);
-        return new Person(updatedPerson);
+        return null;
     }
 
     @Override
-    public void delete(long id) {
-        this.repository.delete(id);
+    public void delete(long id) { this.repository.delete(id);
     }
 
 }

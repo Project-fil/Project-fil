@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CassandraPeopleRepository implements IPeopleRepository {
-//
-//    private JDBCConnectionPool connectionPool;
-//
-//    public CassandraPeopleRepository(JDBCConnectionPool connectionPool) {
-//        this.connectionPool = connectionPool;
-//    }
+
+    JDBCConnectionPool connectionPool;
+
+    public CassandraPeopleRepository(JDBCConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
 
     @Override
     public Person create(Person p) {
-/*        long id = 0;
+        long id = 0;
         Connection connection = this.connectionPool.connection();
         String cassandra = "insert into people (first_name, last_name, age, city) values(?, ?, ?, ?)";
 
@@ -39,13 +39,12 @@ public class CassandraPeopleRepository implements IPeopleRepository {
             this.connectionPool.parking(connection);
         }
         p.setId(id);
-        return p;*/
-        return null;
+        return p;
     }
 
     @Override
     public List<Person> readAll() {
-/*        List<Person> result = new ArrayList<>();
+        List<Person> result = new ArrayList<>();
         Connection connection = this.connectionPool.connection();
         String cassandra = "select * from people";
         try (PreparedStatement statement = connection.prepareStatement(cassandra)) {
@@ -65,13 +64,12 @@ public class CassandraPeopleRepository implements IPeopleRepository {
         } finally {
             this.connectionPool.parking(connection);
         }
-        return result;*/
-        return null;
+        return result;
     }
 
     @Override
     public void update(Person p) {
-        /*Connection connection = this.connectionPool.connection();
+        Connection connection = this.connectionPool.connection();
         String cassandra = "update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?";
         try (PreparedStatement statement = connection.prepareStatement(cassandra, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, p.getFirstName());
@@ -88,12 +86,12 @@ public class CassandraPeopleRepository implements IPeopleRepository {
             System.out.println(e.getMessage());
         } finally {
             this.connectionPool.parking(connection);
-        }*/
+        }
     }
 
     @Override
     public void delete(long id) {
-        /*Connection connection = this.connectionPool.connection();
+        Connection connection = this.connectionPool.connection();
         String cassandra = "delete from people where id = ?";
         try (PreparedStatement statement = connection.prepareStatement(cassandra, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, id);
@@ -102,7 +100,7 @@ public class CassandraPeopleRepository implements IPeopleRepository {
             System.out.println(e.getMessage());
         } finally {
             this.connectionPool.parking(connection);
-        }*/
+        }
     }
 
 }
