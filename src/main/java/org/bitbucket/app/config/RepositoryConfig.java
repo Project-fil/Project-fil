@@ -7,12 +7,7 @@ import org.bitbucket.app.utils.JDBCConnectionPool;
 public class RepositoryConfig {
 
     public static IPeopleRepository cassandraPeopleRepository() {
-        return new CassandraPeopleRepository(new JDBCConnectionPool(
-                30000,
-                "cdata.jdbc.cassandra.CassandraDriver",
-                "jdbc:cassandra:Database=MyCassandraDB://localhost:7000/people",
-                "root",
-                "password"));
+        return new CassandraPeopleRepository();
     }
     public static IPeopleRepository graphDBPeopleRepository() {
         return new GraphDBPeopleRepository(new JDBCConnectionPool(

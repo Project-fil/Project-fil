@@ -29,3 +29,22 @@ db.people.insertOne({
 })
 
 //MongoDB  script
+
+
+//Cassandra  script
+
+CREATE KEYSPACE IF NOT EXISTS people
+    WITH REPLICATION = {
+        'class' : 'SimpleStrategy',
+        'replication_factor' : 1
+        };
+USE people;
+CREATE TABLE people(
+    id bigint PRIMARY KEY,
+    first_name text,
+    last_name text,
+    age int,
+    city text
+);
+
+//Cassandra script

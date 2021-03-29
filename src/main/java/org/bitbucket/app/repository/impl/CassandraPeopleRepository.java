@@ -1,106 +1,79 @@
 package org.bitbucket.app.repository.impl;
 
+import com.datastax.driver.core.*;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.repository.IPeopleRepository;
-import org.bitbucket.app.utils.JDBCConnectionPool;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CassandraPeopleRepository implements IPeopleRepository {
 
-    JDBCConnectionPool connectionPool;
+    private final Cluster cluster;
 
-    public CassandraPeopleRepository(JDBCConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    private final Session session;
+
+    public CassandraPeopleRepository() {
+        this.cluster = Cluster.builder()
+                .addContactPoint("127.0.0.1")
+                .withCredentials("cassandra", "cassandra")
+                .withPort(9042)
+                .build();
+        this.session = this.cluster.connect("people");
     }
 
     @Override
     public Person create(Person p) {
-        long id = 0;
-        Connection connection = this.connectionPool.connection();
-        String cassandra = "insert into people (first_name, last_name, age, city) values(?, ?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(cassandra, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, p.getFirstName());
-            statement.setString(2, p.getLastName());
-            statement.setInt(3, p.getAge());
-            statement.setString(4, p.getCity());
-            int row = statement.executeUpdate();
-            if (row != 0) {
-                ResultSet resultSet = statement.getGeneratedKeys();
-                resultSet.next();
-                id = resultSet.getLong(1);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
-        }
-        p.setId(id);
-        return p;
+        PreparedStatement statement =
+                this.session.prepare("insert into people (id, first_name, last_name, age, city) values (?, ?, ?, ?, ?)");
+        this.session.execute(statement.bind(
+                p.getId(),
+                p.getFirstName(),
+                p.getLastName(),
+                p.getAge(),
+                p.getCity()
+        ));
+        return new Person(p);
     }
 
     @Override
     public List<Person> readAll() {
+        String query = "select * from people";
+        ResultSet resultSet = this.session.execute(query);
+        List<Row> rows = resultSet.all();
         List<Person> result = new ArrayList<>();
-        Connection connection = this.connectionPool.connection();
-        String cassandra = "select * from people";
-        try (PreparedStatement statement = connection.prepareStatement(cassandra)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Person p = new Person(
-                        resultSet.getLong("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getInt("age"),
-                        resultSet.getString("city")
-                );
-                result.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
+        for (Row row : rows) {
+            long id = row.getLong(0);
+            String firstName = row.getString(3);
+            String lastName = row.getString(4);
+            int age = row.getInt(1);
+            String city = row.getString(2);
+            result.add(new Person(
+                    id, firstName, lastName, age, city
+            ));
         }
         return result;
     }
 
     @Override
     public void update(Person p) {
-        Connection connection = this.connectionPool.connection();
-        String cassandra = "update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(cassandra, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, p.getFirstName());
-            statement.setString(2, p.getLastName());
-            statement.setInt(3, p.getAge());
-            statement.setString(4, p.getCity());
-            statement.setLong(5, p.getId());
-            int row = statement.executeUpdate();
-            if (row != 0) {
-                ResultSet resultSet = statement.getGeneratedKeys();
-                resultSet.next();
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
-        }
+        PreparedStatement statement =
+                this.session.prepare("update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?");
+        this.session.execute(statement.bind(
+                p.getFirstName(),
+                p.getLastName(),
+                p.getAge(),
+                p.getCity(),
+                p.getId()
+        ));
     }
 
     @Override
     public void delete(long id) {
-        Connection connection = this.connectionPool.connection();
-        String cassandra = "delete from people where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(cassandra, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
-        }
+        PreparedStatement statement =
+                this.session.prepare("delete from people where id = ?");
+        this.session.execute(statement.bind(id));
     }
 
 }
