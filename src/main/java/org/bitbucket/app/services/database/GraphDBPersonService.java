@@ -3,6 +3,7 @@ package org.bitbucket.app.services.database;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.repository.IPeopleRepository;
 import org.bitbucket.app.services.IPersonService;
+import org.bitbucket.app.utils.JDBCConnectionPool;
 
 import java.util.List;
 
