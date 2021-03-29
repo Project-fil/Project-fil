@@ -32,7 +32,7 @@ public class RepositoryConfig {
                 "localhost",
                 27017,
                 "mongo",
-                new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'},
+                "password",
                 "people"
         );
     }
