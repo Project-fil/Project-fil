@@ -1,3 +1,5 @@
+//PostgreSQL  script
+
 create database people
 people> create schema people
 people> create table people.people
@@ -10,3 +12,20 @@ people> create table people.people
         	age int,
         	city text
         )
+
+//PostgreSQL  script
+
+
+//MongoDB  script
+
+use people
+db.people.drop()
+db.people.insertOne({
+    id: NumberLong("1234567890987654321"),
+    first_name: "Test",
+    last_name: "Test",
+    age: NumberInt("23"),
+    city: "Test"
+})
+
+//MongoDB  script

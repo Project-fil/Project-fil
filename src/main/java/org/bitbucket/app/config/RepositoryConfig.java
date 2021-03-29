@@ -32,12 +32,13 @@ public class RepositoryConfig {
                 "password"));
     }
     public static IPeopleRepository mongoDBPeopleRepository() {
-        return new MongoDBPeopleRepository(new JDBCConnectionPool(
-                30000,
-                "mongodb.jdbc.MongoDriver",
-                "jdbc:mongodb://localhost:27017/people",
-                "root",
-                "password"));
+        return new MongoDBPeopleRepository(
+                "localhost",
+                27017,
+                "mongo",
+                new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'},
+                "people"
+        );
     }
     public static IPeopleRepository mySqlPeopleRepository() {
         return new MySqlPeopleRepository(new JDBCConnectionPool(

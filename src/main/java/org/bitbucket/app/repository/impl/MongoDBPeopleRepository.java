@@ -1,83 +1,78 @@
 package org.bitbucket.app.repository.impl;
 
-import com.mongodb.*;
-import com.mongodb.client.FindIterable;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bitbucket.app.entity.Person;
 import org.bitbucket.app.repository.IPeopleRepository;
-import org.bitbucket.app.utils.JDBCConnectionPool;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
-import java.sql.*;
-import java.util.*;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MongoDBPeopleRepository implements IPeopleRepository {
 
-    JDBCConnectionPool connectionPool;
+    private final String connectionString;
 
-    public MongoDBPeopleRepository(JDBCConnectionPool connectionPool){
-        this.connectionPool = connectionPool;
+    private final String database;
+
+    public MongoDBPeopleRepository(String host, int port, String user, char[] password, String database) {
+        this.connectionString = "mongodb://"
+                + user + ":" + String.valueOf(password) + "@" +
+                host + ":" + port;
+        this.database = database;
     }
-
 
     @Override
     public Person create(Person p) {
-        return null;
+        System.out.println(connectionString);
+        MongoClient mongoClient = new MongoClient(
+                new MongoClientURI(connectionString)
+        );
+        MongoDatabase database = mongoClient.getDatabase(this.database);
+        MongoCollection<Document> collection = database.getCollection("people");
+        Document person = new Document("id", new ObjectId());
+        person.append("id", p.getId())
+                .append("first_name", p.getFirstName())
+                .append("last_name", p.getLastName())
+                .append("age", p.getAge())
+                .append("city", p.getCity());
+        collection.insertOne(person);
+        return new Person(p);
     }
 
     @Override
     public List<Person> readAll() {
-        char[] password = {'p', 'a', 's', 's', 'w', 'o', 'r', 'd'};
-        ServerAddress address = new ServerAddress("localhost", 27017);
-        MongoCredential credential = MongoCredential.createCredential("mongo", "people", password);
-        MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
-        MongoClient client = new MongoClient(address, Collections.singletonList(credential), options);
-        MongoDatabase database = client.getDatabase("people");
+        MongoClient mongoClient = new MongoClient(
+                new MongoClientURI(connectionString)
+        );
+        MongoDatabase database = mongoClient.getDatabase(this.database);
         MongoCollection<Document> collection = database.getCollection("people");
-        FindIterable<Document> iterDoc = collection.find();
-        Iterator iterator = iterDoc.iterator();
         List<Person> result = new ArrayList<>();
-        while (iterator.hasNext()){
-            result.add((Person) iterator.next());
+        try (MongoCursor<Document> cursor = collection.find().iterator()) {
+            while (cursor.hasNext()) {
+                Object[] collectionEntry = cursor.next().values().toArray();
+                long id = Long.parseLong(collectionEntry[1].toString());
+                String firstName = collectionEntry[2].toString();
+                String lastName = collectionEntry[3].toString();
+                int age = Integer.parseInt(collectionEntry[4].toString());
+                String city = collectionEntry[5].toString();
+                result.add(new Person(id, firstName, lastName, age, city));
+            }
         }
         return result;
     }
 
     @Override
     public void update(Person p) {
-        Connection connection = this.connectionPool.connection();
-        String sql = "update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, p.getFirstName());
-            statement.setString(2, p.getLastName());
-            statement.setInt(3, p.getAge());
-            statement.setString(4, p.getCity());
-            statement.setLong(5, p.getId());
-            int row = statement.executeUpdate();
-            if (row != 0) {
-                ResultSet resultSet = statement.getGeneratedKeys();
-                resultSet.next();
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool .parking(connection);
-        }
     }
 
     @Override
     public void delete(long id) {
-        Connection connection = this.connectionPool.connection();
-        String sql = "delete from people where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
-        }
     }
 
 }
