@@ -27,7 +27,7 @@ public class JsonFormat implements BaseFormat {
         return personList;
     }
 
-    private Person toPerson(String one) throws WrongFormatException {
+    public Person toPerson(String one) throws WrongFormatException {
 
         String[] param = PatternMatcher.removeAllJsonSyntax(one).split(",");
 

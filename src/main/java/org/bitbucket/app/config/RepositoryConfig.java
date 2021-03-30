@@ -32,7 +32,6 @@ public class RepositoryConfig {
                 "",
                 ""));
     }
-
     public static IPeopleRepository mongoDBPeopleRepository() {
         return new MongoDBPeopleRepository(
                 "localhost",
@@ -59,12 +58,11 @@ public class RepositoryConfig {
                 "password"));
     }
     public static IPeopleRepository redisPeopleRepository() {
-        return new RedisPeopleRepository(new JDBCConnectionPool(
-                30000,
-                "cdata.jdbc.redis.RedisDriver",
-                "jdbc:redis:Server=127.0.0.1//localhost:6379/crud",
-                "root",
-                "password"));
+        return new RedisPeopleRepository(
+                "localhost",
+                6379,
+                "people"
+        );
     }
 
 }

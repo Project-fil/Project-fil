@@ -1,105 +1,69 @@
 package org.bitbucket.app.repository.impl;
 
 import org.bitbucket.app.entity.Person;
+import org.bitbucket.app.fomats.impl.JsonFormat;
 import org.bitbucket.app.repository.IPeopleRepository;
-import org.bitbucket.app.utils.JDBCConnectionPool;
+import redis.clients.jedis.Jedis;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RedisPeopleRepository implements IPeopleRepository {
 
-    JDBCConnectionPool connectionPool;
+    private final JsonFormat jsonFormat = new JsonFormat();
 
-    public RedisPeopleRepository(JDBCConnectionPool connectionPool){
-        this.connectionPool = connectionPool;
+    private Jedis jedis;
+
+    private List<Person> people;
+
+    private String database;
+
+    public RedisPeopleRepository(String host, int port, String database) {
+        this.database = database;
+        this.jedis = new Jedis(host,port);
+        this.jedis.connect();
+        this.jedis.sadd(this.database,"");
     }
 
     @Override
     public Person create(Person p) {
-        long id = 0;
-        Connection connection = this.connectionPool.connection();
-        String redis = "insert into people (first_name, last_name, age, city) values(?, ?, ?, ?)";
-
-        try (PreparedStatement statement = connection.prepareStatement(redis, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, p.getFirstName());
-            statement.setString(2, p.getLastName());
-            statement.setInt(3, p.getAge());
-            statement.setString(4, p.getCity());
-            int row = statement.executeUpdate();
-            if (row != 0) {
-                ResultSet resultSet = statement.getGeneratedKeys();
-                resultSet.next();
-                id = resultSet.getLong(1);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
-        }
-        p.setId(id);
-        return p;
+        this.jedis.sadd(this.database,this.jsonFormat.toFormat(p));
+        this.people.add(p);
+        return new Person(p);
     }
 
     @Override
     public List<Person> readAll() {
         List<Person> result = new ArrayList<>();
-        Connection connection = this.connectionPool.connection();
-        String redis = "select * from people";
-        try (PreparedStatement statement = connection.prepareStatement(redis)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Person p = new Person(
-                        resultSet.getLong("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getInt("age"),
-                        resultSet.getString("city")
-                );
-                result.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
+        for(String each : jedis.smembers(this.database)){
+            if(each.equals("")) continue;
+            result.add(jsonFormat.fromFormat(each).get(0));
         }
-        return result;
+        this.people = result;
+        return people;
     }
 
     @Override
     public void update(Person p) {
-        Connection connection = this.connectionPool.connection();
-        String redis = "update people set first_name = ?, last_name = ?, age = ?, city = ? where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(redis, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, p.getFirstName());
-            statement.setString(2, p.getLastName());
-            statement.setInt(3, p.getAge());
-            statement.setString(4, p.getCity());
-            statement.setLong(5, p.getId());
-            int row = statement.executeUpdate();
-            if (row != 0) {
-                ResultSet resultSet = statement.getGeneratedKeys();
-                resultSet.next();
+        for(Person each : people){
+            if(each.getId() == p.getId()){
+                this.jedis.srem(this.database,this.jsonFormat.toFormat(each));
+                this.people.remove(each);
+                this.jedis.sadd(this.database,this.jsonFormat.toFormat(p));
+                this.people.add(p);
+                return;
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
         }
     }
 
     @Override
     public void delete(long id) {
-        Connection connection = this.connectionPool.connection();
-        String redis = "delete from people where id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(redis, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            this.connectionPool.parking(connection);
+        for(Person each : people){
+            if(each.getId() == id){
+                this.jedis.srem(this.database,this.jsonFormat.toFormat(each));
+                this.people.remove(each);
+                return;
+            }
         }
     }
 
